@@ -2,7 +2,7 @@
   "name": "MathKids - Belajar Matematika Seru!",
   "short_name": "MathKids",
   "description": "Aplikasi belajar matematika yang menyenangkan untuk anak-anak usia 3-10 tahun",
-  "start_url": "/index.html",
+  "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1a1a2e",
