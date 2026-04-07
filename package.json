@@ -1,0 +1,37 @@
+{
+  "name": "mathkids",
+  "version": "3.0.0",
+  "description": "MathKids - Aplikasi belajar matematika yang menyenangkan untuk anak-anak",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx serve www",
+    "build": "echo 'Static app - no build needed' && cp -r www/* www/",
+    "cap:init": "npx cap init MathKids com.mathkids.app --web-dir www",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:build": "npx cap sync && npx cap open android"
+  },
+  "keywords": [
+    "math",
+    "kids",
+    "education",
+    "learning",
+    "game"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/keyboard": "^6.0.0",
+    "@capacitor/splash-screen": "^6.0.0",
+    "@capacitor/status-bar": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0",
+    "serve": "^14.2.0",
+    "typescript": "^6.0.2"
+  }
+}
