@@ -260,12 +260,13 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .sub-indicator.pink  {background:#FCE7F3;color:#9D174D;}
 .sub-indicator.teal  {background:#CCFBF1;color:#0D9488;} .sub-indicator.indigo{background:#E0E7FF;color:#4338CA;}
 .sub-indicator.amber {background:#FEF3C7;color:#D97706;} .sub-indicator.emerald{background:#D1FAE5;color:#059669;}
-.q-mascot-lot{width:60px;height:60px;margin:0 auto 5px;animation:qRock 2s ease-in-out infinite;}
+.q-top-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.q-mascot-lot{width:36px;height:36px;flex-shrink:0;animation:qRock 2s ease-in-out infinite;}
 @keyframes qRock{0%,100%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(5deg) scale(1.06)}}
-.q-speech{font-size:11px;color:#475569;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.q-speech{font-size:10px;color:#475569;font-weight:800;text-transform:uppercase;letter-spacing:.5px;background:rgba(0,0,0,.04);border-radius:10px;padding:4px 10px;flex:1;text-align:left;}
 .q-text{font-family:'Baloo 2',cursive;font-size:42px;color:#0F172A;letter-spacing:-1px;line-height:1;}
-.q-visual{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:8px;min-height:36px;}
-.q-vi{font-size:22px;animation:viPop .4s cubic-bezier(.34,1.56,.64,1) both;}
+.q-visual{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;min-height:40px;}
+.q-vi{font-size:34px;animation:viPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes viPop{0%{transform:scale(0) rotate(-30deg);opacity:0}100%{transform:scale(1);opacity:1}}
 .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:9px 20px 0;flex-shrink:0;}
 .ans-btn{border-radius:18px;height:74px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:transform .14s,box-shadow .14s;font-family:'Baloo 2',cursive;}
@@ -284,6 +285,15 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .wrong-ans{animation:wShake .4s ease;opacity:.5;}
 @keyframes wShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .reveal-ans{box-shadow:0 0 0 4px #FACC15,0 0 20px rgba(250,204,21,.5)!important;}
+.numpad-wrap{padding:6px 20px 0;}
+.numpad-display{background:#fff;border:2px solid #E2E8F0;border-radius:14px;padding:8px 16px;text-align:center;font-family:'Baloo 2',cursive;font-size:36px;color:#0F172A;min-height:52px;margin-bottom:8px;letter-spacing:2px;position:relative;}
+.numpad-cursor{display:inline-block;width:2px;height:32px;background:#8B5CF6;animation:blink 1s infinite;vertical-align:middle;margin-left:2px;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.numpad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.numpad-btn{height:52px;border-radius:14px;border:none;background:linear-gradient(160deg,#F8FAFC,#E2E8F0);box-shadow:0 3px 0 #CBD5E1;cursor:pointer;font-family:'Baloo 2',cursive;font-size:24px;color:#0F172A;transition:transform .1s;display:flex;align-items:center;justify-content:center;}
+.numpad-btn:active{transform:scale(.95);box-shadow:0 1px 0 #CBD5E1;}
+.numpad-btn.np-enter{background:linear-gradient(160deg,#4ADE80,#16A34A);box-shadow:0 3px 0 #15803D;color:#fff;}
+.numpad-btn.np-del{background:linear-gradient(160deg,#FCA5A5,#F87171);box-shadow:0 3px 0 #DC2626;color:#fff;font-size:18px;}
 .gameover-overlay{position:absolute;inset:0;background:rgba(15,23,42,.85);z-index:150;display:none;align-items:center;justify-content:center;}
 .gameover-overlay.open{display:flex;}
 .gameover-box{background:#fff;border-radius:28px;padding:28px 24px;width:300px;text-align:center;}
@@ -338,8 +348,8 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .lb-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px;}
 .lb-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;margin-bottom:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);}
 .lb-row.me{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.3);}
-.lb-rank{font-family:'Baloo 2',cursive;font-size:16px;color:rgba(255,255,255,.5);width:28px;flex-shrink:0;text-align:center;}
-.lb-rank.gold{color:#FFD700;font-size:20px;} .lb-rank.silver{color:#C0C0C0;font-size:18px;} .lb-rank.bronze{color:#CD7F32;font-size:17px;}
+.lb-rank{font-family:'Baloo 2',cursive;font-size:16px;color:rgba(255,255,255,.5);width:36px;flex-shrink:0;text-align:center;}
+.lb-rank.gold{color:#FFD700;font-size:28px;} .lb-rank.silver{color:#C0C0C0;font-size:26px;} .lb-rank.bronze{color:#CD7F32;font-size:24px;}
 .lb-mascot{font-size:26px;flex-shrink:0;}
 .lb-info{flex:1;}
 .lb-name{font-family:'Baloo 2',cursive;font-size:14px;color:#fff;}
@@ -477,6 +487,7 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
           <button class="lang-btn" onclick="selectCountry('JP',this)"><span class="lang-flag">🇯🇵</span><span class="lang-name">Japan</span></button>
         </div>
         <button class="ob-btn ob-primary" id="btn-country-next" onclick="obNext(1)">Next →</button>
+        <div onclick="showImportOnboard()" style="font-size:11px;color:rgba(167,139,250,.6);cursor:pointer;margin-top:10px;text-decoration:underline;" id="ob-import-link">🔄 Punya kode transfer? Masuk di sini</div>
       </div>
 
       <!-- STEP 1: Language -->
@@ -563,7 +574,10 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
     <div class="home-greeting">
       <div class="greeting-name"><span id="greet-prefix">Halo, </span><span id="greet-name">Pemain</span>! 👋</div>
       <div class="greeting-sub" id="greet-sub">Semangat belajar hari ini!</div>
-      <div onclick="switchUser()" style="font-size:10px;color:rgba(255,255,255,.3);cursor:pointer;margin-top:2px;" id="switch-user-btn">👤 Switch User</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+        <div onclick="switchUser()" style="font-size:10px;color:rgba(255,255,255,.3);cursor:pointer;" id="switch-user-btn">👤 Switch User</div>
+        <div style="font-size:10px;color:rgba(139,92,246,.4);" id="home-uid"></div>
+      </div>
     </div>
 
     <div class="center-stage">
@@ -720,8 +734,10 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
     <div class="game-streak" id="g-streak"></div>
     <div class="q-card blue" id="q-card">
       <div class="sub-indicator blue" id="sub-indicator">Level 1A · Mudah</div>
-      <div class="q-mascot-lot" id="g-mascot-lot"></div>
-      <div class="q-speech" id="g-speech">Hitung yuk!</div>
+      <div class="q-top-row">
+        <div class="q-mascot-lot" id="g-mascot-lot"></div>
+        <div class="q-speech" id="g-speech">Hitung yuk!</div>
+      </div>
       <div class="q-text" id="g-question"></div>
       <div class="q-visual" id="g-visual"></div>
     </div>
@@ -797,6 +813,16 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
         <button class="lang-btn" onclick="switchLang('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></button>
       </div>
       <button class="modal-cancel" onclick="closeModal('modal-lang')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- TRANSFER DATA MODAL -->
+  <div class="modal-overlay" id="modal-transfer" onclick="closeModal('modal-transfer',event)">
+    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:380px;">
+      <div class="modal-handle"></div>
+      <div class="modal-title">🔄 Transfer Data</div>
+      <div id="transfer-modal-body"></div>
+      <button class="modal-cancel" onclick="closeModal('modal-transfer')" style="margin-top:10px;">Cancel</button>
     </div>
   </div>
 
@@ -986,6 +1012,7 @@ function applyLangUI() {
   $('ob-lang-title').textContent = {id:"Pilih Bahasa",en:"Choose Language",ms:"Pilih Bahasa",fr:"Choisir la langue",ja:"言語を選ぶ"}[lang]||"Choose Language";
   $('ob-lang-sub').textContent = {id:"Bahasa yang digunakan di aplikasi",en:"Language used in the app",ms:"Bahasa yang digunakan",fr:"Langue utilisée dans l'app",ja:"アプリで使用する言語"}[lang]||"Language used in the app";
   $('btn-country-next').textContent = L.next;
+  const _oil=$('ob-import-link'); if(_oil) _oil.textContent='🔄 '+({id:"Punya kode transfer? Masuk di sini",en:"Have a transfer code? Login here",ms:"Ada kod transfer? Log masuk di sini",fr:"Vous avez un code? Connectez-vous ici",ja:"転送コードをお持ちですか？"}[lang]||"Have a transfer code? Login here");
   $('ob-name-title').textContent   = L.name_title;
   $('ob-name-sub').textContent     = L.name_sub;
   $('inp-name').placeholder        = L.name_ph;
@@ -2005,6 +2032,16 @@ let profile    = JSON.parse(localStorage.getItem("mk_profile") || "{}");
 let progress   = JSON.parse(localStorage.getItem("mk_progress") || "{}");
 let totalStars = parseInt(localStorage.getItem("mk_stars") || "0");
 
+// Generate unique user ID
+function generateUid(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O/1/I to avoid confusion
+  let id='MK-';
+  for(let i=0;i<6;i++) id+=chars[Math.floor(Math.random()*chars.length)];
+  return id;
+}
+// Migrate: add uid to existing profiles that don't have one
+if(profile.name && !profile.uid){ profile.uid=generateUid(); localStorage.setItem("mk_profile",JSON.stringify(profile)); }
+
 function saveAll() {
   localStorage.setItem("mk_profile",  JSON.stringify(profile));
   localStorage.setItem("mk_progress", JSON.stringify(progress));
@@ -2190,7 +2227,7 @@ function finishOnboard() {
   console.log('finishOnboard called!');
   const nameEl = $("inp-name");
   const name = (nameEl && nameEl.value.trim()) || "Player";
-  profile = { name, age: selectedAge||6, char: selCharKey, lang: selLang, country: selCountry };
+  profile = { name, age: selectedAge||6, char: selCharKey, lang: selLang, country: selCountry, uid: generateUid() };
   lang = selLang;
   saveAll();
   goHome();
@@ -2204,6 +2241,87 @@ function switchUser() {
   $("step0").classList.add("on");
   $("dot0").classList.add("on");
   dailyShown = false;
+}
+
+function showImportOnboard(){
+  const el=$("transfer-modal-body");
+  el.innerHTML=`
+    <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:6px;text-align:center;">${{id:"Masukkan Kode User:",en:"Enter your User Code:",ms:"Masukkan Kod Pengguna:",fr:"Entrez votre Code:"}[lang]||"Enter your User Code:"}</div>
+    <input id="import-uid" type="text" maxlength="9" placeholder="MK-XXXXXX" style="width:100%;height:48px;background:rgba(0,0,0,.3);border:1px solid rgba(139,92,246,.3);border-radius:10px;color:#A78BFA;font-family:'Baloo 2',cursive;font-size:20px;padding:0 12px;text-align:center;letter-spacing:3px;text-transform:uppercase;">
+    <button onclick="doCloudSync()" style="width:100%;height:44px;border-radius:12px;background:linear-gradient(135deg,#7C3AED,#A78BFA);border:none;color:#fff;font-family:'Baloo 2',cursive;font-size:15px;cursor:pointer;margin-top:10px;">☁️ ${{id:"Masuk",en:"Login",ms:"Log Masuk",fr:"Connexion"}[lang]||"Login"}</button>
+    <div onclick="closeModal('modal-transfer');setTimeout(showRecoveryModal,300)" style="text-align:center;color:rgba(167,139,250,.5);font-size:11px;cursor:pointer;margin-top:8px;text-decoration:underline;">${{id:"🔑 Lupa kode? Pulihkan via email",en:"🔑 Forgot code? Recover via email",ms:"🔑 Lupa kod? Pulihkan melalui emel",fr:"🔑 Code oublié? Récupérer par email"}[lang]||"🔑 Forgot code? Recover via email"}</div>
+    <div style="text-align:center;color:rgba(255,255,255,.3);font-size:11px;margin:12px 0;">── ${{id:"atau tempel kode transfer",en:"or paste transfer code",ms:"atau tampal kod transfer",fr:"ou collez le code"}[lang]||"or paste transfer code"} ──</div>
+    <textarea id="import-code" placeholder="${{id:"Tempel kode transfer panjang...",en:"Paste long transfer code...",ms:"Tampal kod transfer...",fr:"Collez le code..."}[lang]||"Paste code..."}" style="width:100%;height:60px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-family:monospace;font-size:10px;padding:8px;resize:none;word-break:break-all;"></textarea>
+    <button onclick="doImportOnboard()" style="width:100%;height:36px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;margin-top:6px;">${{id:"📥 Pulihkan",en:"📥 Restore",ms:"📥 Pulihkan",fr:"📥 Restaurer"}[lang]||"📥 Restore"}</button>
+  `;
+  openModal("modal-transfer");
+}
+
+function doImportOnboard(){
+  const code=$("import-code").value;
+  if(!code.trim()){showToast('❌ Paste code first!');return;}
+  if(importUserData(code)){
+    closeModal("modal-transfer");
+    lang=profile.lang||'en';
+    applyLangUI();
+    showToast({id:'✅ Data berhasil dipulihkan!',en:'✅ Data restored!',ms:'✅ Data dipulihkan!',fr:'✅ Données restaurées!'}[lang]||'✅ Restored!');
+    goHome();
+  }else{
+    showToast('❌ '+({id:'Kode tidak valid',en:'Invalid code',ms:'Kod tidak sah',fr:'Code invalide'}[lang]||'Invalid code'));
+  }
+}
+
+function showRecoveryModal(){
+  const el=$("transfer-modal-body");
+  el.innerHTML=`
+    <div style="text-align:center;margin-bottom:12px;">
+      <div style="font-size:36px;margin-bottom:6px;">🔑</div>
+      <div style="font-size:14px;color:#fff;font-family:'Baloo 2',cursive;">${{id:"Lupa Kode User?",en:"Forgot User Code?",ms:"Lupa Kod Pengguna?",fr:"Code oublié?"}[lang]||"Forgot User Code?"}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">${{id:"Masukkan email orang tua yang terdaftar",en:"Enter the registered parent email",ms:"Masukkan emel ibu bapa yang berdaftar",fr:"Entrez l'email parent enregistré"}[lang]||"Enter registered parent email"}</div>
+    </div>
+    <input id="recovery-email" type="email" placeholder="parent@email.com" style="width:100%;height:44px;background:rgba(0,0,0,.3);border:1px solid rgba(139,92,246,.3);border-radius:10px;color:#fff;font-size:14px;padding:0 12px;">
+    <button onclick="doRecoverByEmail()" style="width:100%;height:42px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#A78BFA);border:none;color:#fff;font-family:'Baloo 2',cursive;font-size:14px;cursor:pointer;margin-top:8px;">🔍 ${{id:"Cari Akun",en:"Find Account",ms:"Cari Akaun",fr:"Chercher"}[lang]||"Find Account"}</button>
+    <div id="recovery-results" style="margin-top:10px;"></div>
+  `;
+  openModal("modal-transfer");
+}
+
+async function doRecoverByEmail(){
+  const email=$("recovery-email").value.trim();
+  if(!email){showToast('❌ Enter email');return;}
+  const results=$("recovery-results");
+  results.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.4);font-size:12px;">🔍 '+({id:'Mencari...',en:'Searching...',ms:'Mencari...',fr:'Recherche...'}[lang]||'Searching...')+'</div>';
+  const accounts=await sbRpc("recover_by_email",{p_email:email});
+  if(!accounts||accounts.length===0){
+    results.innerHTML='<div style="text-align:center;color:#F87171;font-size:12px;">❌ '+({id:'Tidak ditemukan. Pastikan email benar.',en:'Not found. Check your email.',ms:'Tidak dijumpai. Semak emel anda.',fr:'Non trouvé. Vérifiez votre email.'}[lang]||'Not found.')+'</div>';
+    return;
+  }
+  let html='<div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;">'+({id:'Akun ditemukan:',en:'Accounts found:',ms:'Akaun dijumpai:',fr:'Comptes trouvés:'}[lang]||'Found:')+'</div>';
+  accounts.forEach(acc=>{
+    const charEmoji=CHAR_CONFIG[acc.char_key||'fox']?.emoji||'🦊';
+    html+=`<div onclick="recoverAccount('${acc.uid}')" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:12px;padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px;">`;
+    html+=`<div style="font-size:28px;">${charEmoji}</div>`;
+    html+=`<div style="flex:1;"><div style="font-family:'Baloo 2',cursive;font-size:15px;color:#fff;">${acc.name||'Player'}</div>`;
+    html+=`<div style="font-size:10px;color:rgba(255,255,255,.4);">${acc.uid} · ⭐${acc.total_stars||0}</div></div>`;
+    html+=`<div style="font-size:18px;">→</div></div>`;
+  });
+  results.innerHTML=html;
+}
+
+async function recoverAccount(uid){
+  showToast({id:'☁️ Memulihkan...',en:'☁️ Recovering...',ms:'☁️ Memulihkan...',fr:'☁️ Récupération...'}[lang]||'☁️ Recovering...');
+  const player=await fetchPlayerFromCloud(uid);
+  if(!player){showToast('❌ Error');return;}
+  profile={name:player.name,age:player.age,char:player.char_key,lang:player.lang,country:player.country,uid:player.uid};
+  totalStars=player.total_stars||0;
+  if(player.total_coins!==undefined) localStorage.setItem("mk_coins",String(player.total_coins));
+  if(player.parent_email) localStorage.setItem("mk_parent_email",player.parent_email);
+  saveAll();
+  closeModal("modal-transfer");
+  lang=profile.lang||'en';
+  applyLangUI();
+  showToast({id:'✅ Akun dipulihkan!',en:'✅ Account recovered!',ms:'✅ Akaun dipulihkan!',fr:'✅ Compte récupéré!'}[lang]||'✅ Recovered!');
+  goHome();
 }
 
 /* ══════════════════════════════════════
@@ -2234,6 +2352,7 @@ function goHome() {
   lang = profile.lang || "id";
   applyLangUI();
   $("greet-name").textContent = profile.name || "Player";
+  const _hui=$("home-uid"); if(_hui) _hui.textContent=profile.uid||"";
   $("star-count").textContent = totalStars;
   const _cc=$("coin-count");if(_cc)_cc.textContent=getCoins();
   $("streak-count").textContent = localStorage.getItem('mk_streak')||'0';
@@ -2265,6 +2384,8 @@ function goHome() {
   updateProgress();
   showScreen("s-home");
   if (!dailyShown) { dailyShown = true; setTimeout(()=>speakGreeting(),500); setTimeout(() => $("daily-popup").classList.add("show"), 2500); }
+  // Sync to cloud (non-blocking)
+  syncPlayerToCloud();
 }
 
 function applyCharTheme(key) {
@@ -2487,23 +2608,44 @@ function nextQ() {
   $("g-question").textContent = q.text||"";
   const vis = $("g-visual"); vis.innerHTML="";
   if(q.visual){for(let i=0;i<q.cnt;i++){const d=document.createElement("div");d.className="q-vi";d.textContent=curItem;d.style.animationDelay=(i*.05)+"s";vis.appendChild(d);}}
-  let opts;
-  if(q.options){
-    opts = [...q.options].sort(()=>Math.random()-.5);
-  } else {
-    const spread = Math.max(2,Math.min(20,Math.ceil(Math.abs(curAns)*.35)+1));
-    const pool = new Set([curAns]); let att=0;
-    while(pool.size<4&&att<60){att++;let w=curAns+rnd(-spread,spread);if(w>=0&&w!==curAns)pool.add(w);}
-    for(let v=curAns+1;pool.size<4;v++) pool.add(v);
-    opts = [...pool].slice(0,4).sort(()=>Math.random()-.5);
-  }
-  const cols = ["ab-red","ab-blue","ab-green","ab-orange"].sort(()=>Math.random()-.5);
+  const useNumpad = curSub>=1 && !q.options && typeof curAns==='number';
   const grid = $("g-answers"); grid.innerHTML="";
-  opts.forEach((val,i)=>{
-    const btn=document.createElement("button"); btn.className=`ans-btn ${cols[i]}`;
-    btn.innerHTML=`<span class="ans-num">${val}</span>`;
-    btn.onclick=()=>checkAns(btn,val); grid.appendChild(btn);
-  });
+  if(useNumpad){
+    // Numpad input for sub B & C (numeric answers only)
+    grid.className="numpad-wrap";
+    let npVal="";
+    const display=document.createElement("div");display.className="numpad-display";
+    display.innerHTML='<span id="np-val"></span><span class="numpad-cursor"></span>';
+    grid.appendChild(display);
+    const pad=document.createElement("div");pad.className="numpad-grid";
+    [1,2,3,4,5,6,7,8,9,'del',0,'enter'].forEach(k=>{
+      const btn=document.createElement("button");
+      if(k==='del'){btn.className="numpad-btn np-del";btn.textContent="⌫";btn.onclick=()=>{npVal=npVal.slice(0,-1);$("np-val").textContent=npVal;};}
+      else if(k==='enter'){btn.className="numpad-btn np-enter";btn.textContent="✓";btn.onclick=()=>{if(!npVal)return;const v=parseInt(npVal);checkAns(btn,v);};}
+      else{btn.className="numpad-btn";btn.textContent=k;btn.onclick=()=>{if(npVal.length<6){npVal+=k;$("np-val").textContent=npVal;}};}
+      pad.appendChild(btn);
+    });
+    grid.appendChild(pad);
+  } else {
+    // Multiple choice buttons for sub A (and text-option questions)
+    grid.className="ans-grid";
+    let opts;
+    if(q.options){
+      opts = [...q.options].sort(()=>Math.random()-.5);
+    } else {
+      const spread = Math.max(2,Math.min(20,Math.ceil(Math.abs(curAns)*.35)+1));
+      const pool = new Set([curAns]); let att=0;
+      while(pool.size<4&&att<60){att++;let w=curAns+rnd(-spread,spread);if(w>=0&&w!==curAns)pool.add(w);}
+      for(let v=curAns+1;pool.size<4;v++) pool.add(v);
+      opts = [...pool].slice(0,4).sort(()=>Math.random()-.5);
+    }
+    const cols = ["ab-red","ab-blue","ab-green","ab-orange"].sort(()=>Math.random()-.5);
+    opts.forEach((val,i)=>{
+      const btn=document.createElement("button"); btn.className=`ans-btn ${cols[i]}`;
+      btn.innerHTML=`<span class="ans-num">${val}</span>`;
+      btn.onclick=()=>checkAns(btn,val); grid.appendChild(btn);
+    });
+  }
   qNum++;
 }
 
@@ -2519,8 +2661,10 @@ function checkAns(btn,val) {
   if(!stats.byCat)stats.byCat={};
   if(!stats.byCat[curCat])stats.byCat[curCat]={answered:0,correct:0};
   stats.totalAnswered++;stats.daily[today].answered++;stats.byCat[curCat].answered++;
-  if(val===curAns){
-    btn.classList.add("correct-ans");
+  const isNumpad=!!$("np-val");
+  if(String(val)===String(curAns)){
+    if(isNumpad){const d=$("np-val");if(d)d.parentElement.style.background='#DCFCE7';if(d)d.parentElement.style.borderColor='#4ADE80';}
+    else btn.classList.add("correct-ans");
     const pts=10+streak*3+curLvl*2; gScore+=pts; correct++; streak++; maxStreak=Math.max(maxStreak,streak);
     stats.totalCorrect++;stats.daily[today].correct++;stats.byCat[curCat].correct++;
     pushPerf(curCat,true);
@@ -2531,9 +2675,10 @@ function checkAns(btn,val) {
     if(streak>=3){launchConfetti(streak>=5?28:14);const cb=$("combo");cb.textContent=COMBOS[Math.min(streak,COMBOS.length-1)];cb.classList.remove("show");void cb.offsetWidth;cb.classList.add("show");}
     setTimeout(nextQ,680);
   } else {
-    btn.classList.add("wrong-ans"); streak=0;
+    if(isNumpad){const d=$("np-val");if(d){d.parentElement.style.background='#FEE2E2';d.parentElement.style.borderColor='#F87171';d.textContent=curAns;}}
+    else{btn.classList.add("wrong-ans");document.querySelectorAll(".ans-btn").forEach(b=>{if(b.querySelector(".ans-num")&&b.querySelector(".ans-num").textContent==curAns)b.classList.add("reveal-ans");});}
+    streak=0;
     document.querySelectorAll(".gstp").forEach(p=>p.classList.toggle("on",false));
-    document.querySelectorAll(".ans-btn").forEach(b=>{if(b.querySelector(".ans-num").textContent==curAns)b.classList.add("reveal-ans");});
     showFeedback("💔");
     speakAnswer('', false);
     lives--; renderLives();
@@ -2584,12 +2729,17 @@ function showResult(title,sub,mascot,starCount) {
   $("r-correct").textContent=`${correct}/${TOTAL_Q}`; $("r-score").textContent=gScore; $("r-streak").textContent=maxStreak;
   const sRow=$("r-stars"); sRow.innerHTML="";
   for(let i=0;i<3;i++){const s=document.createElement("div");s.className="rs-star";s.textContent=i<starCount?"⭐":"☆";if(i<starCount)s.style.animationDelay=(i*.18)+"s";else s.style.opacity=".3";sRow.appendChild(s);}
-  const gr=getRank(curCat,"global"),cr=getRank(curCat,"country");
-  let rankTxt="";
-  if(gr) rankTxt=`🌍 #${gr} ${S("lb_global_rank")}`;
-  if(cr&&cr!==gr) rankTxt+=` · #${cr} ${S("lb_country_rank")}`;
-  if(!rankTxt) rankTxt=lang==="id"?"Skor tercatat!":"Score submitted!";
-  $("r-rank-txt").textContent=rankTxt;
+  $("r-rank-txt").textContent={id:"Mengirim skor...",en:"Submitting score...",ms:"Menghantar skor...",fr:"Envoi du score..."}[lang]||"Submitting...";
+  // Fetch rank from cloud async
+  Promise.all([getRank(curCat,"global"),getRank(curCat,"country")]).then(([gr,cr])=>{
+    let rankTxt="";
+    if(gr) rankTxt=`🌍 #${gr} ${S("lb_global_rank")}`;
+    if(cr&&cr!==gr) rankTxt+=` · #${cr} ${S("lb_country_rank")}`;
+    if(!rankTxt) rankTxt={id:"Skor tercatat!",en:"Score submitted!",ms:"Skor dihantar!",fr:"Score soumis!"}[lang]||"Score submitted!";
+    $("r-rank-txt").textContent=rankTxt;
+  }).catch(()=>{
+    $("r-rank-txt").textContent={id:"Skor tercatat!",en:"Score submitted!",ms:"Skor dihantar!",fr:"Score soumis!"}[lang]||"Score submitted!";
+  });
   const nb=$("r-next-btn");
   if(starCount>=1){let nl=curLvl,ns=curSub+1;if(ns>2){ns=0;nl++;}nb.style.display="block";nb.textContent=nl>=(LEVELS[curCat]||[]).length?S("home"):S("next_level");}
   else nb.style.display="none";
@@ -2601,31 +2751,89 @@ function showResult(title,sub,mascot,starCount) {
 function goNextSub(){let nl=curLvl,ns=curSub+1;if(ns>2){ns=0;nl++;}if(nl<(LEVELS[curCat]||[]).length)startSub(curCat,nl,ns);else goHome();}
 
 /* ══════════════════════════════════════
+   SUPABASE CLIENT
+══════════════════════════════════════ */
+const SB_URL="https://iqyxllyxnwurdhrngqzr.supabase.co";
+const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxeXhsbHl4bnd1cmRocm5ncXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDkwMjUsImV4cCI6MjA5MTIyNTAyNX0.fNuYiCkDNLcKmefHAjRRQtGOs9Tvla-yop7_ZbKi0F8";
+const SB_HEADERS={"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json"};
+
+async function sbRpc(fn,params){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:SB_HEADERS,body:JSON.stringify(params)});
+    if(!r.ok) throw new Error(r.statusText);
+    return await r.json();
+  }catch(e){console.warn('SB rpc error:',e);return null;}
+}
+
+async function sbUpsert(table,data){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:"POST",headers:{...SB_HEADERS,"Prefer":"resolution=merge-duplicates"},body:JSON.stringify(data)});
+    return r.ok;
+  }catch(e){console.warn('SB upsert error:',e);return false;}
+}
+
+async function sbSelect(table,query){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/${table}?${query}`,{headers:SB_HEADERS});
+    if(!r.ok) throw new Error(r.statusText);
+    return await r.json();
+  }catch(e){console.warn('SB select error:',e);return null;}
+}
+
+// Sync player profile to cloud
+async function syncPlayerToCloud(){
+  if(!profile.uid) return;
+  const name=profile.name||"Player",charKey=profile.char||"fox";
+  const parentEmail=localStorage.getItem('mk_parent_email')||'';
+  await sbUpsert("mk_players",{
+    uid:profile.uid, name, age:profile.age||6, char_key:charKey,
+    country:profile.country||"US", lang:profile.lang||"en",
+    total_stars:totalStars, total_coins:parseInt(localStorage.getItem("mk_coins")||"0"),
+    parent_email:parentEmail
+  });
+}
+
+function saveParentEmail(){
+  const email=$("parent-email").value.trim();
+  localStorage.setItem('mk_parent_email',email);
+  syncPlayerToCloud();
+  showToast(email?({id:'✅ Email tersimpan!',en:'✅ Email saved!',ms:'✅ Emel disimpan!',fr:'✅ Email sauvé!'}[lang]||'✅ Saved!'):({id:'✅ Email dihapus',en:'✅ Email removed',ms:'✅ Emel dibuang',fr:'✅ Email supprimé'}[lang]||'✅ Removed'));
+}
+
+// Fetch player data from cloud (for device transfer)
+async function fetchPlayerFromCloud(uid){
+  const rows=await sbSelect("mk_players",`uid=eq.${uid}&select=*`);
+  return rows&&rows.length>0?rows[0]:null;
+}
+
+/* ══════════════════════════════════════
    LEADERBOARD
 ══════════════════════════════════════ */
 let lbTab="global",lbCat="count";
-const LB_KEY="mk_lb_v3";
-const getLB=()=>JSON.parse(localStorage.getItem(LB_KEY)||"{}");
-const saveLB=d=>localStorage.setItem(LB_KEY,JSON.stringify(d));
 const COUNTRY_MAP={"id-ID":"🇮🇩 Indonesia","en-US":"🇺🇸 USA","en-GB":"🇬🇧 UK","ms-MY":"🇲🇾 Malaysia","fr-FR":"🇫🇷 France","en-AU":"🇦🇺 Australia","en-SG":"🇸🇬 Singapore"};
 function getCountry(){const l=navigator.language||"en-US";return COUNTRY_MAP[l]||("🌍 "+(l.split("-")[1]||"World"));}
+
 function submitScore(catId,score){
-  const lb=getLB(),country=getCountry(),name=profile.name||"Player",mascot=CHAR_CONFIG[profile.char||"fox"].emoji;
-  ["global",country].forEach(scope=>{
-    const k=`${catId}_${scope}`;
-    if(!lb[k])lb[k]=[];
-    lb[k]=lb[k].filter(e=>!(e.name===name&&e.mascot===mascot));
-    lb[k].push({name,mascot,country,score,ts:Date.now()});
-    lb[k].sort((a,b)=>b.score-a.score); lb[k]=lb[k].slice(0,50);
-  });
-  saveLB(lb);
+  const country=getCountry(),name=profile.name||"Player",mascot=CHAR_CONFIG[profile.char||"fox"].emoji,uid=profile.uid||"";
+  // Submit to Supabase (async, non-blocking)
+  if(uid){
+    sbRpc("upsert_score",{p_uid:uid,p_cat_id:catId,p_score:score,p_country:country,p_mascot:mascot,p_name:name});
+    syncPlayerToCloud();
+  }
 }
-function getRank(catId,scope){
-  const lb=getLB(),name=profile.name||"Player",mascot=CHAR_CONFIG[profile.char||"fox"].emoji;
+
+async function getCloudRank(catId,scope){
+  if(!profile.uid) return null;
   const country=getCountry();
-  const k=scope==="global"?`${catId}_global`:`${catId}_${country}`;
-  const idx=(lb[k]||[]).findIndex(e=>e.name===name&&e.mascot===mascot);
+  const entries=await sbRpc("get_leaderboard",{p_cat_id:catId,p_scope:scope,p_country:scope==="country"?country:""});
+  if(!entries) return null;
+  const idx=entries.findIndex(e=>e.uid===profile.uid);
   return idx>=0?idx+1:null;
+}
+
+function getRank(catId,scope){
+  // Async cloud rank - returns promise now
+  return getCloudRank(catId,scope);
 }
 function openLeaderboard(){
   lbCat=activeCat||"count";lbTab="global";
@@ -2635,29 +2843,34 @@ function openLeaderboard(){
 function switchLbTab(tab){lbTab=tab;$("lb-tab-global").classList.toggle("on",tab==="global");$("lb-tab-country").classList.toggle("on",tab==="country");renderLbList();}
 function renderLbCatTabs(){
   const row=$("lb-cat-row");row.innerHTML="";
+  // Overall tab first
+  const allBtn=document.createElement("div");allBtn.className="lb-cat-pill"+(lbCat==="overall"?" on":"");
+  allBtn.textContent=`🏆 ${{id:"Semua",en:"Overall",ms:"Semua",fr:"Total",ja:"総合"}[lang]||"Overall"}`;
+  allBtn.onclick=()=>{lbCat="overall";renderLbCatTabs();renderLbList();};row.appendChild(allBtn);
   CATS.forEach(cat=>{
     const btn=document.createElement("div");btn.className="lb-cat-pill"+(cat.id===lbCat?" on":"");
     btn.textContent=`${cat.icon} ${cat.names[lang]||cat.names.id}`;
     btn.onclick=()=>{lbCat=cat.id;renderLbCatTabs();renderLbList();};row.appendChild(btn);
   });
 }
-function renderLbList(){
+async function renderLbList(){
   const list=$("lb-list");list.innerHTML=`<div class="lb-empty">${S("lb_loading")}</div>`;
-  setTimeout(()=>{
-    const lb=getLB(),country=getCountry();
-    const k=lbTab==="global"?`${lbCat}_global`:`${lbCat}_${country}`;
-    const entries=lb[k]||[];list.innerHTML="";
-    if(!entries.length){list.innerHTML=`<div class="lb-empty">${S("lb_empty")}</div>`;return;}
-    const myName=profile.name||"Player",myMascot=CHAR_CONFIG[profile.char||"fox"].emoji;
-    entries.forEach((e,i)=>{
-      const isMe=e.name===myName&&e.mascot===myMascot;
-      const row=document.createElement("div");row.className="lb-row"+(isMe?" me":"");
-      let rTxt=i+1,rClass="lb-rank";
-      if(i===0){rTxt="🥇";rClass="lb-rank gold";}else if(i===1){rTxt="🥈";rClass="lb-rank silver";}else if(i===2){rTxt="🥉";rClass="lb-rank bronze";}
-      row.innerHTML=`<div class="${rClass}">${rTxt}</div><div class="lb-mascot">${e.mascot}</div><div class="lb-info"><div class="lb-name">${e.name}${isMe?" ◀":""}</div><div class="lb-country">${e.country}</div></div><div class="lb-score">⭐ ${e.score}</div>`;
-      list.appendChild(row);
-    });
-  },400);
+  const country=getCountry();
+  const entries=lbCat==="overall"
+    ?await sbRpc("get_overall_leaderboard",{p_scope:lbTab,p_country:lbTab==="country"?country:""})
+    :await sbRpc("get_leaderboard",{p_cat_id:lbCat,p_scope:lbTab,p_country:lbTab==="country"?country:""});
+  list.innerHTML="";
+  if(!entries||!entries.length){list.innerHTML=`<div class="lb-empty">${S("lb_empty")}</div>`;return;}
+  const myUid=profile.uid||"";
+  entries.forEach((e,i)=>{
+    const isMe=myUid&&e.uid===myUid;
+    const row=document.createElement("div");row.className="lb-row"+(isMe?" me":"");
+    let rTxt=i+1,rClass="lb-rank";
+    if(i===0){rTxt="🥇";rClass="lb-rank gold";}else if(i===1){rTxt="🥈";rClass="lb-rank silver";}else if(i===2){rTxt="🥉";rClass="lb-rank bronze";}
+    const flag=(e.country||'').split(' ')[0]||'🌍';
+    row.innerHTML=`<div class="${rClass}">${rTxt}</div><div class="lb-mascot">${e.mascot||'🦊'}</div><div class="lb-info"><div class="lb-name">${e.name||'Player'} ${flag}${isMe?" ◀":""}</div><div class="lb-country">${e.country||''}</div></div><div class="lb-score">⭐ ${e.score}</div>`;
+    list.appendChild(row);
+  });
 }
 
 /* ══════════════════════════════════════
@@ -2739,8 +2952,30 @@ function showParentZone(){
     });
   }
 
+  // User Code display
+  const savedEmail=localStorage.getItem('mk_parent_email')||'';
+  html+=`<div style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);border-radius:16px;padding:14px;margin-bottom:14px;text-align:center;">`;
+  html+=`<div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:2px;">${{id:"Kode User",en:"User Code",ms:"Kod Pengguna",fr:"Code Utilisateur"}[lang]||"User Code"}</div>`;
+  html+=`<div style="font-family:'Baloo 2',cursive;font-size:26px;color:#A78BFA;letter-spacing:3px;">${profile.uid||'—'}</div>`;
+  html+=`<div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;">${{id:"Catat kode ini untuk identifikasi akun",en:"Note this code for account identification",ms:"Catat kod ini untuk pengenalan akaun",fr:"Notez ce code pour l'identification du compte"}[lang]||"Note this code"}</div>`;
+  // Recovery email
+  html+=`<div style="margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:10px;">`;
+  html+=`<div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;">📧 ${{id:"Email Pemulihan (opsional)",en:"Recovery Email (optional)",ms:"Emel Pemulihan (pilihan)",fr:"Email de récupération (optionnel)"}[lang]||"Recovery Email"}</div>`;
+  html+=`<div style="display:flex;gap:6px;"><input id="parent-email" type="email" value="${savedEmail}" placeholder="parent@email.com" style="flex:1;height:34px;background:rgba(0,0,0,.2);border:1px solid rgba(139,92,246,.2);border-radius:8px;color:#fff;font-size:12px;padding:0 10px;">`;
+  html+=`<button onclick="saveParentEmail()" style="height:34px;padding:0 12px;border-radius:8px;background:rgba(139,92,246,.3);border:1px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;cursor:pointer;white-space:nowrap;">${{id:"Simpan",en:"Save",ms:"Simpan",fr:"Sauver"}[lang]||"Save"}</button></div>`;
+  html+=`<div style="font-size:9px;color:rgba(255,255,255,.2);margin-top:3px;">${{id:"Untuk pemulihan akun jika HP hilang",en:"For account recovery if device is lost",ms:"Untuk pemulihan akaun jika peranti hilang",fr:"Pour récupérer le compte si l'appareil est perdu"}[lang]||"For recovery if device is lost"}</div>`;
+  html+=`</div>`;
+  html+=`</div>`;
+
+  // Transfer Data
+  html+=`<div style="font-family:'Baloo 2',cursive;font-size:14px;color:#fff;margin:0 0 8px;">🔄 ${{id:"Transfer Data",en:"Transfer Data",ms:"Pindah Data",fr:"Transférer"}[lang]||"Transfer Data"}</div>`;
+  html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">`;
+  html+=`<button onclick="showExportModal()" style="height:44px;border-radius:10px;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);color:#34D399;font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;">📤 ${{id:"Ekspor",en:"Export",ms:"Eksport",fr:"Exporter"}[lang]||"Export"}</button>`;
+  html+=`<button onclick="showImportModal()" style="height:44px;border-radius:10px;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#60A5FA;font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;">📥 ${{id:"Impor",en:"Import",ms:"Import",fr:"Importer"}[lang]||"Import"}</button>`;
+  html+=`</div>`;
+
   // Settings
-  html+=`<div style="font-family:'Baloo 2',cursive;font-size:14px;color:#fff;margin:14px 0 8px;">⚙️ Settings</div>`;
+  html+=`<div style="font-family:'Baloo 2',cursive;font-size:14px;color:#fff;margin:0 0 8px;">⚙️ Settings</div>`;
   html+=`<button onclick="const p=prompt('New 4-digit PIN:');if(p&&p.length===4&&/^\d{4}$/.test(p)){localStorage.setItem('mk_parent_pin',p);showToast('PIN updated!');}" style="width:100%;height:40px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-family:'Baloo 2',cursive;font-size:13px;cursor:pointer;margin-bottom:6px;">🔑 Change PIN</button>`;
   html+=`<button onclick="if(confirm('Reset all progress?')){localStorage.removeItem('mk_progress');localStorage.removeItem('mk_stats');localStorage.removeItem('mk_stars');progress={};totalStars=0;updateProgress();showToast('Progress reset!');showParentZone();}" style="width:100%;height:40px;border-radius:10px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#F87171;font-family:'Baloo 2',cursive;font-size:13px;cursor:pointer;margin-bottom:6px;">🗑️ Reset Progress</button>`;
   html+=`<div style="text-align:center;margin-top:12px;font-size:10px;color:rgba(255,255,255,.2);">MathKids v3 · ${isSubscribed()?'Premium':isTrialActive()?'Trial':'Free'}</div>`;
@@ -2904,6 +3139,115 @@ function showStats(){
   html+=`</div>`;
   body.innerHTML=html;
   showScreen("s-stats");
+}
+
+/* ══════════════════════════════════════
+   DATA TRANSFER (Export/Import)
+══════════════════════════════════════ */
+const TRANSFER_KEYS=["mk_profile","mk_progress","mk_stars","mk_stats","mk_coins","mk_owned_chars","mk_streak","mk_last_date","mk_sound","mk_subscribed","mk_trial_end","mk_lb_v3"];
+// Add perf keys dynamically
+function getAllTransferKeys(){
+  const keys=[...TRANSFER_KEYS];
+  CATS.forEach(c=>{ if(localStorage.getItem('mk_perf_'+c.id)) keys.push('mk_perf_'+c.id); });
+  return keys;
+}
+
+function exportUserData(){
+  const data={};
+  getAllTransferKeys().forEach(k=>{ const v=localStorage.getItem(k); if(v!==null) data[k]=v; });
+  const json=JSON.stringify(data);
+  const encoded=btoa(unescape(encodeURIComponent(json)));
+  return encoded;
+}
+
+function importUserData(code){
+  try{
+    const json=decodeURIComponent(escape(atob(code.trim())));
+    const data=JSON.parse(json);
+    if(!data.mk_profile) throw new Error('Invalid');
+    const imported=JSON.parse(data.mk_profile);
+    if(!imported.name) throw new Error('No profile');
+    // Restore all data
+    Object.entries(data).forEach(([k,v])=>localStorage.setItem(k,v));
+    // Reload state
+    profile=JSON.parse(localStorage.getItem("mk_profile")||"{}");
+    progress=JSON.parse(localStorage.getItem("mk_progress")||"{}");
+    totalStars=parseInt(localStorage.getItem("mk_stars")||"0");
+    return true;
+  }catch(e){ return false; }
+}
+
+function showExportModal(){
+  const code=exportUserData();
+  const uid=profile.uid||'???';
+  const el=$("transfer-modal-body");
+  el.innerHTML=`
+    <div style="text-align:center;margin-bottom:12px;">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;">${{id:"Kode User",en:"User Code",ms:"Kod Pengguna",fr:"Code Utilisateur"}[lang]||"User Code"}</div>
+      <div style="font-family:'Baloo 2',cursive;font-size:28px;color:#A78BFA;letter-spacing:3px;">${uid}</div>
+    </div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;">${{id:"Kode Transfer (salin semua):",en:"Transfer Code (copy all):",ms:"Kod Transfer (salin semua):",fr:"Code de transfert (copier tout):"}[lang]||"Transfer Code:"}</div>
+    <textarea id="export-code" readonly style="width:100%;height:80px;background:rgba(0,0,0,.3);border:1px solid rgba(139,92,246,.3);border-radius:10px;color:#fff;font-family:monospace;font-size:10px;padding:8px;resize:none;word-break:break-all;">${code}</textarea>
+    <button onclick="navigator.clipboard.writeText($('export-code').value).then(()=>showToast('${({id:"Tersalin!",en:"Copied!",ms:"Disalin!",fr:"Copié!"})[lang]||"Copied!"}'))" style="width:100%;height:38px;border-radius:10px;background:rgba(139,92,246,.3);border:1px solid rgba(139,92,246,.5);color:#A78BFA;font-family:'Baloo 2',cursive;font-size:13px;cursor:pointer;margin-top:8px;">${{id:"📋 Salin Kode",en:"📋 Copy Code",ms:"📋 Salin Kod",fr:"📋 Copier"}[lang]||"📋 Copy Code"}</button>
+    <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;text-align:center;">${{id:"Tempel kode ini di device lain untuk memindahkan data",en:"Paste this code on another device to transfer your data",ms:"Tampal kod ini di peranti lain untuk memindahkan data",fr:"Collez ce code sur un autre appareil pour transférer vos données"}[lang]||"Paste on another device to transfer data"}</div>
+  `;
+  openModal("modal-transfer");
+}
+
+function showImportModal(){
+  const el=$("transfer-modal-body");
+  const L={
+    uid_label:{id:"Masukkan Kode User (MK-XXXXXX):",en:"Enter User Code (MK-XXXXXX):",ms:"Masukkan Kod Pengguna:",fr:"Entrez le Code Utilisateur:"},
+    uid_ph:{id:"Contoh: MK-A3X9F2",en:"Example: MK-A3X9F2",ms:"Contoh: MK-A3X9F2",fr:"Exemple: MK-A3X9F2"},
+    sync_btn:{id:"☁️ Sinkron dari Cloud",en:"☁️ Sync from Cloud",ms:"☁️ Segerak dari Cloud",fr:"☁️ Synchroniser"},
+    or:{id:"atau",en:"or",ms:"atau",fr:"ou"},
+    paste_label:{id:"Tempel kode transfer panjang:",en:"Paste long transfer code:",ms:"Tampal kod transfer panjang:",fr:"Collez le code de transfert:"},
+    paste_ph:{id:"Tempel kode di sini...",en:"Paste code here...",ms:"Tampal kod di sini...",fr:"Collez le code ici..."},
+    restore_btn:{id:"📥 Pulihkan Data",en:"📥 Restore Data",ms:"📥 Pulihkan Data",fr:"📥 Restaurer"}
+  };
+  el.innerHTML=`
+    <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:6px;text-align:center;">${L.uid_label[lang]||L.uid_label.en}</div>
+    <input id="import-uid" type="text" maxlength="9" placeholder="${L.uid_ph[lang]||L.uid_ph.en}" style="width:100%;height:44px;background:rgba(0,0,0,.3);border:1px solid rgba(139,92,246,.3);border-radius:10px;color:#A78BFA;font-family:'Baloo 2',cursive;font-size:18px;padding:0 12px;text-align:center;letter-spacing:2px;text-transform:uppercase;">
+    <button onclick="doCloudSync()" style="width:100%;height:40px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#A78BFA);border:none;color:#fff;font-family:'Baloo 2',cursive;font-size:14px;cursor:pointer;margin-top:8px;">${L.sync_btn[lang]||L.sync_btn.en}</button>
+    <div onclick="closeModal('modal-transfer');setTimeout(showRecoveryModal,300)" style="text-align:center;color:rgba(167,139,250,.5);font-size:11px;cursor:pointer;margin-top:8px;text-decoration:underline;">${{id:"🔑 Lupa kode? Pulihkan via email",en:"🔑 Forgot code? Recover via email",ms:"🔑 Lupa kod? Pulihkan melalui emel",fr:"🔑 Code oublié? Récupérer par email"}[lang]||"🔑 Forgot code?"}</div>
+    <div style="text-align:center;color:rgba(255,255,255,.3);font-size:11px;margin:12px 0;">── ${L.or[lang]||L.or.en} ──</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;">${L.paste_label[lang]||L.paste_label.en}</div>
+    <textarea id="import-code" placeholder="${L.paste_ph[lang]||L.paste_ph.en}" style="width:100%;height:70px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-family:monospace;font-size:10px;padding:8px;resize:none;word-break:break-all;"></textarea>
+    <button onclick="doImport()" style="width:100%;height:36px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;margin-top:6px;">${L.restore_btn[lang]||L.restore_btn.en}</button>
+  `;
+  openModal("modal-transfer");
+}
+
+async function doCloudSync(){
+  const uidInput=$("import-uid").value.trim().toUpperCase();
+  if(!uidInput||!uidInput.startsWith("MK-")){showToast('❌ '+({id:'Format: MK-XXXXXX',en:'Format: MK-XXXXXX',ms:'Format: MK-XXXXXX',fr:'Format: MK-XXXXXX'}[lang]||'Format: MK-XXXXXX'));return;}
+  showToast({id:'☁️ Menyinkronkan...',en:'☁️ Syncing...',ms:'☁️ Menyegerakkan...',fr:'☁️ Synchronisation...'}[lang]||'☁️ Syncing...');
+  const player=await fetchPlayerFromCloud(uidInput);
+  if(!player){showToast('❌ '+({id:'Kode tidak ditemukan',en:'Code not found',ms:'Kod tidak dijumpai',fr:'Code non trouvé'}[lang]||'Code not found'));return;}
+  // Restore profile from cloud
+  profile={name:player.name,age:player.age,char:player.char_key,lang:player.lang,country:player.country,uid:player.uid};
+  totalStars=player.total_stars||0;
+  if(player.total_coins!==undefined) localStorage.setItem("mk_coins",String(player.total_coins));
+  saveAll();
+  closeModal("modal-transfer");
+  lang=profile.lang||'en';
+  applyLangUI();
+  showToast({id:'✅ Sinkron berhasil!',en:'✅ Sync successful!',ms:'✅ Segerak berjaya!',fr:'✅ Synchronisé!'}[lang]||'✅ Synced!');
+  goHome();
+}
+
+function doImport(){
+  const code=$("import-code").value;
+  if(!code.trim()){showToast('❌ Paste code first!');return;}
+  if(importUserData(code)){
+    closeModal("modal-transfer");
+    lang=profile.lang||'en';
+    applyLangUI();
+    showToast({id:'✅ Data berhasil dipulihkan!',en:'✅ Data restored!',ms:'✅ Data dipulihkan!',fr:'✅ Données restaurées!'}[lang]||'✅ Restored!');
+    goHome();
+  }else{
+    showToast('❌ '+({id:'Kode tidak valid',en:'Invalid code',ms:'Kod tidak sah',fr:'Code invalide'}[lang]||'Invalid code'));
+  }
 }
 
 /* ══════════════════════════════════════
