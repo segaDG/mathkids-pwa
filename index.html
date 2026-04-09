@@ -3056,6 +3056,9 @@ function _drawCanvasMap(catId){
   /* click */
   canvas.onclick=function(e){
     const rc=canvas.getBoundingClientRect(),mx=(e.clientX-rc.left)*(W/rc.width),my=(e.clientY-rc.top)*(H/rc.height);
+    /* boss node click */
+    const bdx=mx-BOSS.x,bdy=my-BOSS.y;
+    if(bdx*bdx+bdy*bdy<=RB*RB*1.6){startBossLevel(catId);return;}
     for(let g=0;g<N;g++) for(let s=0;s<3;s++){const p=sPos(g,s),R=s===0?RM:RS,dx=mx-p.x,dy=my-p.y;if(dx*dx+dy*dy<=R*R*1.4){const st=nState(g,s);if(st!=="locked")startSub(catId,g,s);return;}}
   };
 
@@ -3203,6 +3206,7 @@ const COMBOS = ["","","","🔥 Combo x3!","🔥 x4!","⚡ x5!","💥 MAX!!"];
 let curCat="count",curLvl=0,curSub=0;
 let gScore=0,qNum=0,correct=0,streak=0,maxStreak=0,canAns=true,curAns=0,retriedQ=false;
 let curItem="🍎",lives=MAX_LIVES,levelsDone=0,gameLotAnim=null;
+let bossMode=false,bossGens=[];
 
 // Adaptive difficulty tracking
 function getPerf(catId){return JSON.parse(localStorage.getItem('mk_perf_'+catId)||'[1,1,1,1,1]');}
@@ -3213,6 +3217,7 @@ function renderLives() { for(let i=0;i<MAX_LIVES;i++) $("life"+i).classList.togg
 
 function startSub(catId,lvl,sub) {
   curCat=catId; curLvl=lvl; curSub=sub;
+  bossMode=false; bossGens=[];
   gScore=0; qNum=0; correct=0; streak=0; maxStreak=0; lives=MAX_LIVES; curItem=pick(VIS_ITEMS); usedExtraLife=false; retriedQ=false;
   const cat = CATS.find(c=>c.id===catId);
   const sv = LEVELS[catId][lvl].subs[sub];
@@ -3232,7 +3237,43 @@ function startSub(catId,lvl,sub) {
   renderLives(); showScreen("s-game"); nextQ();
 }
 
-function replaySub() { $("gameover-overlay").classList.remove("open"); startSub(curCat,curLvl,curSub); }
+function replaySub() { $("gameover-overlay").classList.remove("open"); if(bossMode) startBossLevel(curCat); else startSub(curCat,curLvl,curSub); }
+
+function startBossLevel(catId){
+  bossMode=true; curCat=catId;
+  // Find highest completed level for this category
+  const levels=LEVELS[catId]||[];
+  let maxLvl=0;
+  for(let g=0;g<levels.length;g++){
+    for(let s=0;s<3;s++){if(getStars(catId,g,s)>0) maxLvl=g;}
+  }
+  // Collect generators from top 3 levels (hardest sub C)
+  bossGens=[];
+  for(let g=Math.max(0,maxLvl-2);g<=maxLvl;g++){
+    const subs=levels[g]?.subs;
+    if(subs){
+      const bestSub=subs[2]||subs[1]||subs[0];
+      if(bestSub) bossGens.push(bestSub.g);
+    }
+  }
+  if(bossGens.length===0) bossGens.push(levels[0].subs[0].g);
+  curLvl=maxLvl; curSub=2;
+  gScore=0; qNum=0; correct=0; streak=0; maxStreak=0; lives=MAX_LIVES; curItem=pick(VIS_ITEMS); usedExtraLife=false; retriedQ=false;
+  const cat=CATS.find(c=>c.id===catId);
+  const bossLabel={id:'⭐ Boss Mix',en:'⭐ Boss Mix',ms:'⭐ Boss Mix',fr:'⭐ Boss Mix',ja:'⭐ ボスミックス'};
+  $("g-mode-name").textContent=`${cat.icon} ${cat.names[lang]||cat.names.id}`;
+  $("g-lvl-pill").textContent=bossLabel[lang]||'⭐ Boss Mix';
+  $("q-card").className=`q-card ${cat.color}`;
+  $("g-prog").className=`prog-fill-game ${cat.color}`;
+  $("sub-indicator").className=`sub-indicator ${cat.color}`;
+  $("sub-indicator").textContent=bossLabel[lang]||'⭐ Boss Mix';
+  if(gameLotAnim){gameLotAnim.destroy();gameLotAnim=null;}
+  $("gameover-overlay").classList.remove("open");
+  $("sound-btn").textContent=soundOn?'🔊':'🔇';
+  const gStreak=$("g-streak");gStreak.innerHTML="";
+  for(let i=0;i<TOTAL_Q;i++){const d=document.createElement("div");d.className="gstp";gStreak.appendChild(d);}
+  renderLives(); showScreen("s-game"); nextQ();
+}
 
 function nextQ() {
   if(qNum>=TOTAL_Q){endGame();return;}
@@ -3240,13 +3281,19 @@ function nextQ() {
   $("g-prog").style.width = (qNum/TOTAL_Q*100)+"%";
   $("g-q-label").textContent = `${S("q_label")} ${qNum+1} ${S("of")} ${TOTAL_Q}`;
   document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<streak));
-  // Adaptive difficulty - adjust sub-level used
-  const dm=getDiffMod(curCat);
-  let adjSub=curSub;
-  if(dm===-1 && curSub>0) adjSub=curSub-1; // easier: use sub A instead of B/C
-  if(dm===1 && curSub<2) adjSub=curSub+1;   // harder: use sub C instead of A/B
-  const actualSv = LEVELS[curCat][curLvl].subs[adjSub];
-  const q = actualSv.g(); curAns = q.answer;
+  // Generate question
+  let q;
+  if(bossMode && bossGens.length>0){
+    q = pick(bossGens)();
+  } else {
+    const dm=getDiffMod(curCat);
+    let adjSub=curSub;
+    if(dm===-1 && curSub>0) adjSub=curSub-1;
+    if(dm===1 && curSub<2) adjSub=curSub+1;
+    const actualSv = LEVELS[curCat][curLvl].subs[adjSub];
+    q = actualSv.g();
+  }
+  curAns = q.answer;
   $("g-speech").textContent = pick(S("speeches")[curCat]||["Go!"]);
   $("g-question").textContent = q.text||"";
   const vis = $("g-visual"); vis.innerHTML="";
