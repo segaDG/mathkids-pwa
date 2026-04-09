@@ -46,7 +46,7 @@ git subtree split --prefix www -b tmp && git push origin tmp:gh-pages --force &&
 3. **Lines 400-800**: HTML screens (onboarding, home, levelmap, game, result, leaderboard, stats, parent)
 4. **Lines 800-1000**: Language strings (id, en, ms, fr, ja)
 5. **Lines 1000-1350**: Character config, generators, T translations, coin system, subscription
-6. **Lines 1350-2000**: LEVELS data (9 categories, 250 levels total)
+6. **Lines 1350-2000**: LEVELS data (9 categories, 270 levels total)
 7. **Lines 2000-2900**: Game logic, UI functions, speech, modals, init
 
 ### Important Conventions
@@ -90,10 +90,10 @@ git subtree split --prefix www -b tmp && git push origin tmp:gh-pages --force &&
 | Category | Levels | Sub-levels | Premium |
 |----------|--------|------------|---------|
 | Counting | 10 | 30 | Free |
-| Addition | 30 | 90 | Free |
-| Subtraction | 30 | 90 | Free |
-| Multiplication | 30 | 90 | Premium |
-| Division | 30 | 90 | Premium |
+| Addition | 35 | 105 | Free |
+| Subtraction | 35 | 105 | Free |
+| Multiplication | 35 | 105 | Premium |
+| Division | 35 | 105 | Premium |
 | Fractions | 30 | 90 | Premium |
 | Shapes | 30 | 90 | Premium |
 | Time | 30 | 90 | Premium |
