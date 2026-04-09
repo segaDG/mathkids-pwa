@@ -3175,6 +3175,11 @@ function renderLevelMap() {
     });
     group.appendChild(subWrap); map.appendChild(group);
   });
+  // Auto-scroll to current (latest unlocked) level
+  setTimeout(()=>{
+    const cur=map.querySelector(".sub-card.current");
+    if(cur) cur.scrollIntoView({behavior:"smooth",block:"center"});
+  },100);
 }
 
 /* ══════════════════════════════════════
