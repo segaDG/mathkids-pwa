@@ -1588,9 +1588,9 @@ const LEVELS = {
     {names:{id:"Hitung 5–12",en:"Count 5–12",ms:"Kira 5–12",fr:"Compter 5–12",ja:"かぞえよう 5–12"},subs:[{n:"3A",d:{id:"5–7",en:"5–7",ms:"5–7",fr:"5–7",ja:"5–7"},ex:"=6",g:()=>cntQ(5,7)},{n:"3B",d:{id:"7–10",en:"7–10",ms:"7–10",fr:"7–10",ja:"7–10"},ex:"=8",g:()=>cntQ(7,10)},{n:"3C",d:{id:"9–12",en:"9–12",ms:"9–12",fr:"9–12",ja:"9–12"},ex:"=11",g:()=>cntQ(9,12)}]},
     {names:{id:"Hitung 8–15",en:"Count 8–15",ms:"Kira 8–15",fr:"Compter 8–15",ja:"かぞえよう 8–15"},subs:[{n:"4A",d:{id:"8–10",en:"8–10",ms:"8–10",fr:"8–10",ja:"8–10"},ex:"=9",g:()=>cntQ(8,10)},{n:"4B",d:{id:"10–13",en:"10–13",ms:"10–13",fr:"10–13",ja:"10–13"},ex:"=12",g:()=>cntQ(10,13)},{n:"4C",d:{id:"12–15",en:"12–15",ms:"12–15",fr:"12–15",ja:"12–15"},ex:"=14",g:()=>cntQ(12,15)}]},
     {names:{id:"Hitung 10–20",en:"Count 10–20",ms:"Kira 10–20",fr:"Compter 10–20",ja:"かぞえよう 10–20"},subs:[{n:"5A",d:{id:"10–14",en:"10–14",ms:"10–14",fr:"10–14",ja:"10–14"},ex:"=12",g:()=>cntQ(10,14)},{n:"5B",d:{id:"13–17",en:"13–17",ms:"13–17",fr:"13–17",ja:"13–17"},ex:"=15",g:()=>cntQ(13,17)},{n:"5C",d:{id:"16–20",en:"16–20",ms:"16–20",fr:"16–20",ja:"16–20"},ex:"=18",g:()=>cntQ(16,20)}]},
-    {names:{id:"Mana Lebih Banyak?",en:"Which Has More?",ms:"Mana Lebih Banyak?",fr:"Lequel a plus?",ja:"どっちが多い?"},subs:[{n:"6A",d:{id:"2–5",en:"2–5",ms:"2–5",fr:"2–5",ja:"2–5"},ex:"🍎🍎 vs 🌟🌟🌟",g:()=>cntMoreQ(2,5)},{n:"6B",d:{id:"3–8",en:"3–8",ms:"3–8",fr:"3–8",ja:"3–8"},ex:"🍎🍎🍎 vs 🌟🌟🌟🌟🌟",g:()=>cntMoreQ(3,8)},{n:"6C",d:{id:"5–12",en:"5–12",ms:"5–12",fr:"5–12",ja:"5–12"},ex:"Lebih banyak?",g:()=>cntMoreQ(5,12)}]},
+    {names:{id:"Mana Lebih Banyak?",en:"Which Has More?",ms:"Mana Lebih Banyak?",fr:"Lequel a plus?",ja:"どっちが多い?"},subs:[{n:"6A",d:{id:"2–5",en:"2–5",ms:"2–5",fr:"2–5",ja:"2–5"},ex:"🍎🍎 vs 🌟🌟🌟",g:()=>cntMoreQ(2,5)},{n:"6B",d:{id:"3–8",en:"3–8",ms:"3–8",fr:"3–8",ja:"3–8"},ex:"🍎🍎🍎 vs 🌟🌟🌟🌟🌟",g:()=>cntMoreQ(3,8)},{n:"6C",d:{id:"5–12",en:"5–12",ms:"5–12",fr:"5–12",ja:"5–12"},ex:"A>B?",g:()=>cntMoreQ(5,12)}]},
     {names:{id:"Hitung Loncat 2",en:"Count by 2s",ms:"Kira Loncat 2",fr:"Compter par 2",ja:"2とびでかぞえよう"},subs:[{n:"7A",d:{id:"Loncat 2 kecil",en:"Skip 2 small",ms:"Loncat 2 kecil",fr:"Sauter 2 petit",ja:"2とび 小"},ex:"2,4,6,...?",g:()=>cntByStepQ(2,5)},{n:"7B",d:{id:"Loncat 2 sedang",en:"Skip 2 medium",ms:"Loncat 2 sedang",fr:"Sauter 2 moyen",ja:"2とび 中"},ex:"4,6,8,...?",g:()=>cntByStepQ(2,10)},{n:"7C",d:{id:"Loncat 5",en:"Skip 5",ms:"Loncat 5",fr:"Sauter 5",ja:"5とび"},ex:"5,10,15,...?",g:()=>cntByStepQ(5,10)}]},
-    {names:{id:"Berapa Selisihnya?",en:"How Many More?",ms:"Berapa Lebihnya?",fr:"Combien de plus?",ja:"いくつ多い?"},subs:[{n:"8A",d:{id:"2–6",en:"2–6",ms:"2–6",fr:"2–6",ja:"2–6"},ex:"🍎🍎🍎🍎 vs 🍎🍎",g:()=>cntDiffQ(2,6)},{n:"8B",d:{id:"3–10",en:"3–10",ms:"3–10",fr:"3–10",ja:"3–10"},ex:"Selisih?",g:()=>cntDiffQ(3,10)},{n:"8C",d:{id:"5–15",en:"5–15",ms:"5–15",fr:"5–15",ja:"5–15"},ex:"Selisih?",g:()=>cntDiffQ(5,15)}]},
+    {names:{id:"Berapa Selisihnya?",en:"How Many More?",ms:"Berapa Lebihnya?",fr:"Combien de plus?",ja:"いくつ多い?"},subs:[{n:"8A",d:{id:"2–6",en:"2–6",ms:"2–6",fr:"2–6",ja:"2–6"},ex:"🍎🍎🍎🍎 vs 🍎🍎",g:()=>cntDiffQ(2,6)},{n:"8B",d:{id:"3–10",en:"3–10",ms:"3–10",fr:"3–10",ja:"3–10"},ex:"A−B=?",g:()=>cntDiffQ(3,10)},{n:"8C",d:{id:"5–15",en:"5–15",ms:"5–15",fr:"5–15",ja:"5–15"},ex:"A−B=?",g:()=>cntDiffQ(5,15)}]},
     {names:{id:"Ganjil atau Genap",en:"Odd or Even",ms:"Ganjil atau Genap",fr:"Pair ou Impair",ja:"奇数と偶数"},subs:[{n:"9A",d:{id:"10–15",en:"10–15",ms:"10–15",fr:"10–15",ja:"10–15"},ex:"=12",g:()=>cntQ(10,15)},{n:"9B",d:{id:"12–20",en:"12–20",ms:"12–20",fr:"12–20",ja:"12–20"},ex:"=17",g:()=>cntQ(12,20)},{n:"9C",d:{id:"15–30",en:"15–30",ms:"15–30",fr:"15–30",ja:"15–30"},ex:"=25",g:()=>cntQ(15,30)}]},
     {names:{id:"Master Hitung",en:"Count Master",ms:"Master Kira",fr:"Maître Comptage",ja:"かぞえるマスター"},subs:[{n:"10A",d:{id:"Mix hitung",en:"Mix count",ms:"Campuran hitung",fr:"Mix compter",ja:"ミックス"},ex:"Mix",g:()=>{const r=Math.random();return r<.4?cntQ(3,15):r<.7?cntMoreQ(3,10):cntDiffQ(2,8);}},{n:"10B",d:{id:"Mix loncat",en:"Mix skip",ms:"Campuran loncat",fr:"Mix sauter",ja:"ミックスとび"},ex:"Mix",g:()=>{const r=Math.random();return r<.3?cntQ(5,20):r<.5?cntMoreQ(4,12):r<.75?cntByStepQ(2,10):cntDiffQ(3,12);}},{n:"10C",d:{id:"Grand Master",en:"Grand Master",ms:"Grand Master",fr:"Grand Maître",ja:"グランドマスター"},ex:"Mix",g:()=>{const r=Math.random();return r<.25?cntQ(10,30):r<.5?cntMoreQ(5,15):r<.75?cntByStepQ(5,15):cntDiffQ(5,15);}}]},
   ],
@@ -2104,18 +2104,18 @@ const LEVELS = {
       {n:"1C",d:{id:"2-3 koin",en:"2-3 coins",ms:"2-3 syiling",fr:"2-3 pièces",ja:"2-3枚"},ex:"++=?",g:()=>moneyCountQ(pick([2,3]))}
     ]},
     {names:{id:"Hitung 3 Koin",en:"Count 3 Coins",ms:"Kira 3 Syiling",fr:"Compter 3 pièces",ja:"3枚のコイン"},subs:[
-      {n:"2A",d:{id:"3 koin",en:"3 coins",ms:"3 syiling",fr:"3 pièces",ja:"3枚"},ex:"3 koin",g:()=>moneyCountQ(3)},
-      {n:"2B",d:{id:"3 koin+",en:"3 coins+",ms:"3 syiling+",fr:"3 pièces+",ja:"3枚+"},ex:"3 koin",g:()=>moneyCountQ(3)},
-      {n:"2C",d:{id:"3-4 koin",en:"3-4 coins",ms:"3-4 syiling",fr:"3-4 pièces",ja:"3-4枚"},ex:"3-4 koin",g:()=>moneyCountQ(pick([3,4]))}
+      {n:"2A",d:{id:"3 koin",en:"3 coins",ms:"3 syiling",fr:"3 pièces",ja:"3枚"},ex:"🪙🪙🪙",g:()=>moneyCountQ(3)},
+      {n:"2B",d:{id:"3 koin+",en:"3 coins+",ms:"3 syiling+",fr:"3 pièces+",ja:"3枚+"},ex:"🪙🪙🪙",g:()=>moneyCountQ(3)},
+      {n:"2C",d:{id:"3-4 koin",en:"3-4 coins",ms:"3-4 syiling",fr:"3-4 pièces",ja:"3-4枚"},ex:"🪙×3-4",g:()=>moneyCountQ(pick([3,4]))}
     ]},
     {names:{id:"Hitung 4 Koin",en:"Count 4 Coins",ms:"Kira 4 Syiling",fr:"Compter 4 pièces",ja:"4枚のコイン"},subs:[
-      {n:"3A",d:{id:"4 koin",en:"4 coins",ms:"4 syiling",fr:"4 pièces",ja:"4枚"},ex:"4 koin",g:()=>moneyCountQ(4)},
-      {n:"3B",d:{id:"4 koin+",en:"4 coins+",ms:"4 syiling+",fr:"4 pièces+",ja:"4枚+"},ex:"4 koin",g:()=>moneyCountQ(4)},
+      {n:"3A",d:{id:"4 koin",en:"4 coins",ms:"4 syiling",fr:"4 pièces",ja:"4枚"},ex:"🪙🪙🪙🪙",g:()=>moneyCountQ(4)},
+      {n:"3B",d:{id:"4 koin+",en:"4 coins+",ms:"4 syiling+",fr:"4 pièces+",ja:"4枚+"},ex:"🪙🪙🪙🪙",g:()=>moneyCountQ(4)},
       {n:"3C",d:{id:"Mix 3-4",en:"Mix 3-4",ms:"Campur 3-4",fr:"Mix 3-4",ja:"Mix 3-4"},ex:"Mix",g:()=>moneyCountQ(pick([3,4]))}
     ]},
     {names:{id:"Hitung 5-6 Koin",en:"Count 5-6 Coins",ms:"Kira 5-6 Syiling",fr:"Compter 5-6 pièces",ja:"5-6枚のコイン"},subs:[
-      {n:"4A",d:{id:"5 koin",en:"5 coins",ms:"5 syiling",fr:"5 pièces",ja:"5枚"},ex:"5 koin",g:()=>moneyCountQ(5)},
-      {n:"4B",d:{id:"6 koin",en:"6 coins",ms:"6 syiling",fr:"6 pièces",ja:"6枚"},ex:"6 koin",g:()=>moneyCountQ(6)},
+      {n:"4A",d:{id:"5 koin",en:"5 coins",ms:"5 syiling",fr:"5 pièces",ja:"5枚"},ex:"🪙×5",g:()=>moneyCountQ(5)},
+      {n:"4B",d:{id:"6 koin",en:"6 coins",ms:"6 syiling",fr:"6 pièces",ja:"6枚"},ex:"🪙×6",g:()=>moneyCountQ(6)},
       {n:"4C",d:{id:"Mix 5-6",en:"Mix 5-6",ms:"Campur 5-6",fr:"Mix 5-6",ja:"Mix 5-6"},ex:"Mix",g:()=>moneyCountQ(pick([5,6]))}
     ]},
     {names:{id:"Master Hitung Koin",en:"Coin Count Master",ms:"Master Kira Syiling",fr:"Maître compter pièces",ja:"コインマスター"},subs:[
