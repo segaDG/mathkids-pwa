@@ -176,5 +176,63 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 9. Index for email recovery
+-- 10. Index for email recovery
 CREATE INDEX idx_players_email ON mk_players (LOWER(parent_email));
+
+-- 11. Server-side coin validation
+-- Max coins earnable per day: login(1) + streak(10) + daily_target(3) = 14
+-- Cap: reject if adding more than 14 coins in a single day
+DROP FUNCTION IF EXISTS add_coins_validated(TEXT, INT, TEXT);
+CREATE OR REPLACE FUNCTION add_coins_validated(p_uid TEXT, p_amount INT, p_reason TEXT)
+RETURNS TABLE (success BOOLEAN, new_balance INT, message TEXT) AS $$
+DECLARE
+  v_player mk_players%ROWTYPE;
+  v_today_coins INT;
+  v_max_daily INT := 14;
+  v_new_balance INT;
+BEGIN
+  -- Get player
+  SELECT * INTO v_player FROM mk_players WHERE uid = p_uid;
+  IF NOT FOUND THEN
+    RETURN QUERY SELECT false, 0, 'Player not found'::TEXT;
+    RETURN;
+  END IF;
+
+  -- Only validate additions (spending is always allowed)
+  IF p_amount > 0 THEN
+    -- Check daily coin cap from coin_log
+    SELECT COALESCE(SUM(amount), 0) INTO v_today_coins
+    FROM mk_coin_log
+    WHERE uid = p_uid AND created_at >= CURRENT_DATE AND amount > 0;
+
+    IF v_today_coins + p_amount > v_max_daily THEN
+      RETURN QUERY SELECT false, v_player.total_coins, 'Daily coin limit reached'::TEXT;
+      RETURN;
+    END IF;
+  END IF;
+
+  -- Update balance
+  v_new_balance := GREATEST(0, v_player.total_coins + p_amount);
+  UPDATE mk_players SET total_coins = v_new_balance WHERE uid = p_uid;
+
+  -- Log transaction
+  INSERT INTO mk_coin_log (uid, amount, reason) VALUES (p_uid, p_amount, p_reason);
+
+  RETURN QUERY SELECT true, v_new_balance, 'OK'::TEXT;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 12. Coin transaction log table
+CREATE TABLE IF NOT EXISTS mk_coin_log (
+  id BIGSERIAL PRIMARY KEY,
+  uid TEXT NOT NULL REFERENCES mk_players(uid) ON DELETE CASCADE,
+  amount INT NOT NULL,
+  reason TEXT DEFAULT '',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_coin_log_uid_date ON mk_coin_log (uid, created_at);
+
+ALTER TABLE mk_coin_log ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public insert coin_log" ON mk_coin_log FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public read coin_log" ON mk_coin_log FOR SELECT USING (true);
