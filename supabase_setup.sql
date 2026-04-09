@@ -76,6 +76,8 @@ CREATE POLICY "Public insert players" ON mk_players FOR INSERT WITH CHECK (true)
 CREATE POLICY "Public update players" ON mk_players FOR UPDATE USING (true);
 CREATE POLICY "Public insert scores" ON mk_scores FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public update scores" ON mk_scores FOR UPDATE USING (true);
+CREATE POLICY "Public delete players" ON mk_players FOR DELETE USING (true);
+CREATE POLICY "Public delete scores" ON mk_scores FOR DELETE USING (true);
 
 -- 6. Leaderboard view function (top 50 per category)
 CREATE OR REPLACE FUNCTION get_leaderboard(p_cat_id TEXT, p_scope TEXT DEFAULT 'global', p_country TEXT DEFAULT '')
@@ -236,3 +238,4 @@ CREATE INDEX idx_coin_log_uid_date ON mk_coin_log (uid, created_at);
 ALTER TABLE mk_coin_log ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public insert coin_log" ON mk_coin_log FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public read coin_log" ON mk_coin_log FOR SELECT USING (true);
+CREATE POLICY "Public delete coin_log" ON mk_coin_log FOR DELETE USING (true);

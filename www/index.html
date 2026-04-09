@@ -479,6 +479,10 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
       <div class="modal-char-grid" id="modal-char-grid"></div>
       <button class="modal-ad-btn" id="modal-ad-btn" onclick="startCharSwapAd()">✅ Change Character</button>
       <button class="modal-cancel" id="modal-cancel-btn" onclick="closeCharModal()">Maybe later</button>
+      <div style="border-top:1px solid rgba(255,255,255,.08);margin-top:12px;padding-top:12px;display:flex;gap:8px;">
+        <button onclick="closeCharModal();switchUser()" style="flex:1;height:36px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;" id="prof-switch-btn">👤 Switch User</button>
+        <button onclick="confirmDeleteAccount()" style="flex:1;height:36px;border-radius:10px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#F87171;font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;" id="prof-delete-btn">🗑 Delete Account</button>
+      </div>
     </div>
   </div>
 
@@ -626,10 +630,7 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
     <div class="home-greeting">
       <div class="greeting-name"><span id="greet-prefix">Halo, </span><span id="greet-name">Pemain</span>! 👋</div>
       <div class="greeting-sub" id="greet-sub">Semangat belajar hari ini!</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
-        <div onclick="switchUser()" style="font-size:10px;color:rgba(255,255,255,.3);cursor:pointer;" id="switch-user-btn">👤 Switch User</div>
-        <div style="font-size:10px;color:rgba(139,92,246,.4);" id="home-uid"></div>
-      </div>
+      <div style="font-size:10px;color:rgba(139,92,246,.4);margin-top:2px;" id="home-uid"></div>
     </div>
 
     <div class="center-stage">
@@ -2336,6 +2337,47 @@ function switchUser() {
   dailyShown = false;
 }
 
+function confirmDeleteAccount(){
+  closeCharModal();
+  const msg={
+    id:'Hapus akun dan semua data?\n\nSemua progress, bintang, koin, dan karakter akan hilang permanen.\n\nKetik "HAPUS" untuk konfirmasi:',
+    en:'Delete account and all data?\n\nAll progress, stars, coins, and characters will be permanently lost.\n\nType "DELETE" to confirm:',
+    ms:'Padam akaun dan semua data?\n\nSemua progres, bintang, syiling, dan watak akan hilang.\n\nTaip "PADAM" untuk sahkan:',
+    fr:'Supprimer le compte et toutes les données ?\n\nToute progression sera perdue.\n\nTapez "SUPPRIMER" pour confirmer :',
+    ja:'アカウントと全データを削除しますか？\n\n全ての進捗、スター、コインが失われます。\n\n確認するには「削除」と入力：'
+  };
+  const confirm_word={id:'HAPUS',en:'DELETE',ms:'PADAM',fr:'SUPPRIMER',ja:'削除'};
+  const input=prompt(msg[lang]||msg.en);
+  if(input&&input.trim().toUpperCase()===(confirm_word[lang]||'DELETE')){
+    deleteAccount();
+  }
+}
+
+async function deleteAccount(){
+  const uid=profile.uid;
+  // Delete from Supabase
+  if(uid){
+    try{
+      await fetch(`${SB_URL}/rest/v1/mk_coin_log?uid=eq.${uid}`,{method:"DELETE",headers:SB_HEADERS});
+      await fetch(`${SB_URL}/rest/v1/mk_scores?uid=eq.${uid}`,{method:"DELETE",headers:SB_HEADERS});
+      await fetch(`${SB_URL}/rest/v1/mk_players?uid=eq.${uid}`,{method:"DELETE",headers:SB_HEADERS});
+    }catch(e){console.warn('Delete cloud data error:',e);}
+  }
+  // Clear all localStorage
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith('mk_'));
+  keys.forEach(k=>localStorage.removeItem(k));
+  profile={};totalStars=0;
+  showToast({id:'✅ Akun dihapus',en:'✅ Account deleted',ms:'✅ Akaun dipadam',fr:'✅ Compte supprimé',ja:'✅ アカウント削除済み'}[lang]||'✅ Deleted');
+  setTimeout(()=>{
+    showScreen("s-onboard");
+    obStep=0;
+    document.querySelectorAll(".ob-step").forEach(s=>s.classList.remove("on"));
+    document.querySelectorAll(".ob-dot").forEach(d=>d.classList.remove("on"));
+    $("step0").classList.add("on");$("dot0").classList.add("on");
+    dailyShown=false;
+  },500);
+}
+
 function showImportOnboard(){
   const el=$("transfer-modal-body");
   el.innerHTML=`
@@ -2478,7 +2520,6 @@ function goHome() {
   _s("streak-display",streakDisp);
   _s("streak-label",{id:"🔥 Streak",en:"🔥 Streak",ms:"🔥 Streak",fr:"🔥 Série",ja:"🔥 連続"}[lang]||"🔥 Streak");
   _s("streak-days-label",{id:"hari",en:"days",ms:"hari",fr:"jours",ja:"日"}[lang]||"days");
-  _s("switch-user-btn",{id:"👤 Ganti Pengguna",en:"👤 Switch User",ms:"👤 Tukar Pengguna",fr:"👤 Changer d'utilisateur",ja:"👤 ユーザー切替"}[lang]||"👤 Switch User");
   const pp=$("premium-pill");const pl=$("premium-label");
   if(pp&&pl){
     if(isSubscribed()){pl.textContent='Premium';pp.style.background='rgba(255,215,0,.2)';pp.style.borderColor='rgba(255,215,0,.4)';pp.style.color='#FFD700';}
@@ -3140,6 +3181,8 @@ function openCharModal(){
   });
   pendingChar=null;
   $("modal-ad-btn").textContent={id:'Pilih karakter',en:'Select character',ms:'Pilih watak',fr:'Choisir',ja:'キャラ選択'}[lang]||'Select';
+  const _sb=$("prof-switch-btn");if(_sb)_sb.textContent={id:'👤 Ganti Akun',en:'👤 Switch User',ms:'👤 Tukar Pengguna',fr:"👤 Changer d'utilisateur",ja:'👤 ユーザー切替'}[lang]||'👤 Switch User';
+  const _db=$("prof-delete-btn");if(_db)_db.textContent={id:'🗑 Hapus Akun',en:'🗑 Delete Account',ms:'🗑 Padam Akaun',fr:'🗑 Supprimer le compte',ja:'🗑 アカウント削除'}[lang]||'🗑 Delete Account';
   openModal("modal-char");
 }
 let pendingChar=null;
