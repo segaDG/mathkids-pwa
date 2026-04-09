@@ -2214,7 +2214,9 @@ const LEVELS = {
 ══════════════════════════════════════ */
 let profile    = JSON.parse(localStorage.getItem("mk_profile") || "{}");
 let progress   = JSON.parse(localStorage.getItem("mk_progress") || "{}");
-let totalStars = parseInt(localStorage.getItem("mk_stars") || "0");
+let totalStars = 0;
+// Recalculate on load after progress is available
+setTimeout(()=>{totalStars=calcTotalStars();localStorage.setItem("mk_stars",String(totalStars));},0);
 
 // Generate unique user ID
 function generateUid(){
@@ -2232,6 +2234,7 @@ function saveAll() {
   localStorage.setItem("mk_stars",    String(totalStars));
 }
 function getStars(c,l,s)    { return progress[`${c}_${l}_${s}`]?.stars || 0; }
+function calcTotalStars(){let t=0;for(const k in progress){if(progress[k]?.stars)t+=progress[k].stars;}return t;}
 function isUnlocked(c,l,s) {
   const age = profile.age || 6;
   const start = AGE_START[c]?.[age] ?? 0;
@@ -2576,7 +2579,7 @@ async function recoverAccount(uid){
   const player=await fetchPlayerFromCloud(uid);
   if(!player){showToast('❌ Error');return;}
   profile={name:player.name,age:player.age,char:player.char_key,lang:player.lang,country:player.country,uid:player.uid};
-  totalStars=player.total_stars||0;
+  totalStars=calcTotalStars();
   if(player.total_coins!==undefined) localStorage.setItem("mk_coins",String(player.total_coins));
   if(player.parent_email) localStorage.setItem("mk_parent_email",player.parent_email);
   saveAll();
@@ -2615,9 +2618,9 @@ function goHome() {
     localStorage.setItem('mk_last_date',today);
     // Daily login coin + streak bonus
     addCoins(1,'daily_login');
-    if(streakVal===3){addCoins(2,'streak_3');totalStars+=50;saveAll();showToast('🔥 3 days! +2🪙 +50⭐');}
-    else if(streakVal===7){addCoins(5,'streak_7');totalStars+=150;saveAll();showToast('🔥 7 days! +5🪙 +150⭐');}
-    else if(streakVal===30){addCoins(10,'streak_30');totalStars+=500;saveAll();showToast('🔥 30 days! +10🪙 +500⭐');}
+    if(streakVal===3){addCoins(2,'streak_3');showToast('🔥 3 days! +2🪙');}
+    else if(streakVal===7){addCoins(5,'streak_7');showToast('🔥 7 days! +5🪙');}
+    else if(streakVal===30){addCoins(10,'streak_30');showToast('🔥 30 days! +10🪙');}
     else{showToast(`+1🪙 ${({id:'Login harian',en:'Daily login',ms:'Login harian',fr:'Connexion',ja:'ログイン'})[lang]||'Daily login'}`);}
   } else if(dateManipulated){
     // Reset streak on date tampering
@@ -2626,6 +2629,7 @@ function goHome() {
   }
   lang = profile.lang || "id";
   applyLangUI();
+  totalStars=calcTotalStars();
   $("greet-name").textContent = profile.name || "Player";
   const _hui=$("home-uid"); if(_hui) _hui.textContent=profile.uid||"";
   $("star-count").textContent = totalStars;
@@ -3434,7 +3438,7 @@ function endGame() {
   else{title=S("retry_title");sub=S("sub_retry");mascot="💪";starCount=0;}
   const key=`${curCat}_${curLvl}_${curSub}`;
   const prev=progress[key]?.stars||0;
-  if(starCount>prev){totalStars+=Math.round(gScore/5)+(starCount-prev)*5;progress[key]={stars:starCount,score:gScore};levelsDone++;saveAll();}
+  if(starCount>prev){progress[key]={stars:starCount,score:gScore};levelsDone++;totalStars=calcTotalStars();saveAll();}
   submitScore(curCat,gScore);
   showResult(title,sub,mascot,starCount);
 }
@@ -3897,7 +3901,7 @@ function importUserData(code){
     // Reload state
     profile=JSON.parse(localStorage.getItem("mk_profile")||"{}");
     progress=JSON.parse(localStorage.getItem("mk_progress")||"{}");
-    totalStars=parseInt(localStorage.getItem("mk_stars")||"0");
+    totalStars=calcTotalStars();saveAll();
     return true;
   }catch(e){ return false; }
 }
@@ -3951,7 +3955,7 @@ async function doCloudSync(){
   if(!player){showToast('❌ '+({id:'Kode tidak ditemukan',en:'Code not found',ms:'Kod tidak dijumpai',fr:'Code non trouvé'}[lang]||'Code not found'));return;}
   // Restore profile from cloud
   profile={name:player.name,age:player.age,char:player.char_key,lang:player.lang,country:player.country,uid:player.uid};
-  totalStars=player.total_stars||0;
+  totalStars=calcTotalStars();
   if(player.total_coins!==undefined) localStorage.setItem("mk_coins",String(player.total_coins));
   saveAll();
   closeModal("modal-transfer");
