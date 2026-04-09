@@ -2121,6 +2121,33 @@ function isUnlocked(c,l,s) {
 
 
 /* ══════════════════════════════════════
+   NAME FILTER
+══════════════════════════════════════ */
+const BANNED_WORDS=[
+  // EN
+  'fuck','fck','fuk','fuq','shit','sht','ass','asshole','bitch','btch','bastard','dick','dck','cock','penis','vagina','pussy','puss','slut','whore','cunt','boob','tits','nigger','nigga','niga','fag','faggot','damn','piss','crap','wanker','twat','bollocks','anus','dildo','porn','pron','sex','rape','kill','murder','suicide',
+  // ID - lengkap dengan slang & singkatan
+  'kontol','kntl','ktl','memek','mmk','mmek','ngentot','ngtd','ngewe','entot','ntot','bangsat','bngst','bgst','bgsd','anjing','anjg','ajg','anjir','anjer','anjay','anj','babi','pepek','ppk','titit','titi','jancok','jancuk','jnck','cok','cuk','asu','asw','goblok','gblk','goblog','tolol','tll','bego','bgoo','pantat','pntat','pelacur','sundal','lonte','lnt','jablay','jblay','peler','plr','tempik','tmpk','toket','tkt','memekk','kontoll','bajingan','bjngn','kampret','kmprt','monyet','mnyt','tai','taik','taek','perek','keparat','kprt','bacot','bacod','bct','kimak','dancuk','coli','colmek','itil','jembut','jmbt','nenen','puki','sange','kancut','sempak','silit','tete','tetew',
+  // MS
+  'pukimak','lancau','buto','sundal','jalang','bahalol','bangang','palat','pantat','tetek','sial','celaka',
+  // FR
+  'merde','putain','connard','connasse','salaud','salope','enculer','baiser','bite','couille','nique','foutre','bordel','pute','cul',
+  // JA
+  'くそ','ちんこ','まんこ','おっぱい','ばか','あほ','しね','ころす','うんこ','きちがい','ちんぽ'
+];
+const BANNED_RE=new RegExp(BANNED_WORDS.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'),'i');
+function normalizeName(s){
+  return s.toLowerCase()
+    .replace(/[\s_\-.,!@#$%^&*()+=~`'"<>?/\\|{}\[\]:;]/g,'') // strip symbols
+    .replace(/0/g,'o').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5/g,'s').replace(/6/g,'g').replace(/7/g,'t').replace(/8/g,'b').replace(/9/g,'g') // leet speak
+    .replace(/(.)\1{1,}/g,'$1'); // collapse repeated letters (fuuuck→fuck, anjiing→anjing)
+}
+function hasBlockedName(name){
+  const n=normalizeName(name);
+  return BANNED_RE.test(n);
+}
+
+/* ══════════════════════════════════════
    UTILS
 ══════════════════════════════════════ */
 const $ = id => document.getElementById(id);
@@ -2286,7 +2313,13 @@ function buildReadyPreview() {
 function finishOnboard() {
   console.log('finishOnboard called!');
   const nameEl = $("inp-name");
-  const name = (nameEl && nameEl.value.trim()) || "Player";
+  let name = (nameEl && nameEl.value.trim()) || "Player";
+  if(hasBlockedName(name)){
+    name="Player";
+    if(nameEl)nameEl.value="";
+    showToast({id:'❌ Nama tidak diperbolehkan',en:'❌ Name not allowed',ms:'❌ Nama tidak dibenarkan',fr:'❌ Nom non autorisé',ja:'❌ その名前は使えません'}[lang]||'❌ Name not allowed');
+    return;
+  }
   profile = { name, age: selectedAge||6, char: selCharKey, lang: selLang, country: selCountry, uid: generateUid() };
   lang = selLang;
   saveAll();
@@ -2867,7 +2900,7 @@ async function sbSelect(table,query){
 // Sync player profile to cloud
 async function syncPlayerToCloud(){
   if(!profile.uid) return;
-  const name=profile.name||"Player",charKey=profile.char||"fox";
+  const name=hasBlockedName(profile.name||"")?"Player":(profile.name||"Player"),charKey=profile.char||"fox";
   const parentEmail=localStorage.getItem('mk_parent_email')||'';
   await sbUpsert("mk_players",{
     uid:profile.uid, name, age:profile.age||6, char_key:charKey,
@@ -2898,7 +2931,7 @@ const COUNTRY_MAP={"id-ID":"🇮🇩 Indonesia","en-US":"🇺🇸 USA","en-GB":"
 function getCountry(){const l=navigator.language||"en-US";return COUNTRY_MAP[l]||("🌍 "+(l.split("-")[1]||"World"));}
 
 function submitScore(catId,score){
-  const country=getCountry(),name=profile.name||"Player",mascot=CHAR_CONFIG[profile.char||"fox"].emoji,uid=profile.uid||"";
+  const country=getCountry(),name=hasBlockedName(profile.name||"")?"Player":(profile.name||"Player"),mascot=CHAR_CONFIG[profile.char||"fox"].emoji,uid=profile.uid||"";
   // Submit to Supabase (async, non-blocking)
   if(uid){
     sbRpc("upsert_score",{p_uid:uid,p_cat_id:catId,p_score:score,p_country:country,p_mascot:mascot,p_name:name});
