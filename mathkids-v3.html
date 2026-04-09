@@ -890,7 +890,7 @@ body{font-family:'Nunito',sans-serif;background:#111;display:flex;align-items:ce
       </div>
     </div>
     <div class="game-hdr">
-      <button class="btn-back-game" onclick="renderCatTabs();renderLevelMap();showScreen('s-levelmap')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <button class="btn-back-game" onclick="showScreen('s-levelmap')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/></svg></button>
       <div class="game-hdr-info">
         <div class="game-hdr-mode" id="g-mode-name">Menghitung</div>
         <div class="game-hdr-q" id="g-q-label">Soal 1 dari 8</div>
@@ -2341,7 +2341,7 @@ function showScreen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   $(id).classList.add("active");
   $("daily-popup").classList.remove("show");
-  if(id==="s-levelmap"){renderCatTabs();renderLevelMap();}
+  if(id==="s-levelmap"){_drawCanvasMap(activeCat);}
 }
 
 /* ══════════════════════════════════════
