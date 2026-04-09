@@ -341,8 +341,8 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .numpad-display{background:#fff;border:2px solid #E2E8F0;border-radius:14px;padding:8px 16px;text-align:center;font-family:'Baloo 2',cursive;font-size:36px;color:#0F172A;min-height:52px;margin-bottom:8px;letter-spacing:2px;position:relative;}
 .numpad-cursor{display:inline-block;width:2px;height:32px;background:#8B5CF6;animation:blink 1s infinite;vertical-align:middle;margin-left:2px;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.numpad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.numpad-btn{height:52px;border-radius:14px;border:none;background:linear-gradient(160deg,#F8FAFC,#E2E8F0);box-shadow:0 3px 0 #CBD5E1;cursor:pointer;font-family:'Baloo 2',cursive;font-size:24px;color:#0F172A;transition:transform .1s;display:flex;align-items:center;justify-content:center;}
+.numpad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.numpad-btn{height:56px;border-radius:14px;border:none;background:linear-gradient(160deg,#F8FAFC,#E2E8F0);box-shadow:0 3px 0 #CBD5E1;cursor:pointer;font-family:'Baloo 2',cursive;font-size:26px;color:#0F172A;transition:transform .1s;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;}
 .numpad-btn:active{transform:scale(.95);box-shadow:0 1px 0 #CBD5E1;}
 .numpad-btn.np-enter{background:linear-gradient(160deg,#4ADE80,#16A34A);box-shadow:0 3px 0 #15803D;color:#fff;}
 .numpad-btn.np-del{background:linear-gradient(160deg,#FCA5A5,#F87171);box-shadow:0 3px 0 #DC2626;color:#fff;font-size:18px;}
@@ -3255,7 +3255,7 @@ function nextQ() {
       const btn=document.createElement("button");
       if(k==='del'){btn.className="numpad-btn np-del";btn.textContent="⌫";btn.onclick=()=>{npVal=npVal.slice(0,-1);$("np-val").textContent=npVal;};}
       else if(k==='enter'){btn.className="numpad-btn np-enter";btn.textContent="✓";btn.onclick=()=>{if(!npVal)return;const v=parseInt(npVal);checkAns(btn,v);};}
-      else{btn.className="numpad-btn";btn.textContent=k;btn.onclick=()=>{if(npVal.length<6){npVal+=k;$("np-val").textContent=npVal;}};}
+      else{btn.className="numpad-btn";btn.textContent=String(k);btn.dataset.val=String(k);btn.onclick=()=>{if(npVal.length<6){npVal+=btn.dataset.val;$("np-val").textContent=npVal;}};}
       pad.appendChild(btn);
     });
     grid.appendChild(pad);
@@ -3325,10 +3325,9 @@ function checkAns(btn,val) {
         // Reset npVal closure by rebuilding numpad enter handler
         let npVal="";
         document.querySelectorAll(".numpad-btn").forEach(b=>{
-          const txt=b.textContent;
-          if(txt==="⌫") b.onclick=()=>{npVal=npVal.slice(0,-1);$("np-val").textContent=npVal;};
-          else if(txt==="✓") b.onclick=()=>{if(!npVal)return;checkAns(b,parseInt(npVal));};
-          else b.onclick=()=>{if(npVal.length<6){npVal+=txt;$("np-val").textContent=npVal;}};
+          if(b.classList.contains("np-del")) b.onclick=()=>{npVal=npVal.slice(0,-1);$("np-val").textContent=npVal;};
+          else if(b.classList.contains("np-enter")) b.onclick=()=>{if(!npVal)return;checkAns(b,parseInt(npVal));};
+          else{const v=b.dataset.val;b.onclick=()=>{if(npVal.length<6){npVal+=v;$("np-val").textContent=npVal;}};}
         });
       } else {
         document.querySelectorAll(".ans-btn").forEach(b=>{b.classList.remove("wrong-ans","reveal-ans","correct-ans");b.onclick=()=>checkAns(b,b.querySelector(".ans-num")?.textContent);});
