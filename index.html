@@ -36,9 +36,63 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 /* PHONE */
 .phone{width:100%;height:100dvh;position:relative;overflow:hidden;display:flex;flex-direction:column;}
 .notch{display:none;}
+/* ── RESPONSIVE: Mobile (real device) ── */
 .home-topbar{padding-top:52px;}
 @media(max-width:380px){
   .ob-logo{font-size:34px;} .ob-title{font-size:20px;} .lang-grid{gap:7px;} .lang-btn{padding:10px 7px;} .lang-flag{font-size:22px;} .lang-name{font-size:13px;} .age-grid{gap:6px;} .age-num{font-size:20px;} .circle-btn{width:54px;height:54px;} .cb-lbl{font-size:8px;}
+}
+/* ── RESPONSIVE: Small phones (SE, Mini) ── */
+@media(max-height:680px) and (max-width:430px){
+  .home-topbar{padding-top:36px;}
+  .greeting-name{font-size:17px;}
+  .char-main-wrap{width:180px;height:180px;}
+  .circle-btn{width:52px;height:52px;} .cb-lbl{font-size:8px;}
+  .home-progress{padding:6px 14px;}
+  .top-pill{padding:4px 8px;font-size:11px;}
+}
+/* ── RESPONSIVE: Tall phones (Pro Max, Ultra) ── */
+@media(min-height:900px) and (max-width:430px){
+  .char-main-wrap{width:280px;height:280px;}
+  .circle-btn{width:72px;height:72px;} .cb-lbl{font-size:10px;}
+  .home-progress{padding:14px 20px;}
+}
+/* ── RESPONSIVE: Tablet portrait ── */
+@media(min-width:431px) and (max-width:820px){
+  body{padding:0;background:#000;align-items:stretch;}
+  .phone{width:100%;height:100dvh;border-radius:0;box-shadow:none;}
+  .notch{display:none;}
+  .home-topbar{padding:52px 24px 0;}
+  .home-logo{font-size:24px;}
+  .top-pill{padding:6px 14px;font-size:14px;}
+  .greeting-name{font-size:24px;}
+  .greeting-sub{font-size:13px;}
+  .char-main-wrap{width:300px;height:300px;}
+  .circle-btn{width:76px;height:76px;gap:4px;} .cb-lbl{font-size:11px;}
+  .cb-icon-wrap{width:30px;height:30px;} .cb-icon-wrap svg{width:30px;height:30px;}
+  .home-progress{padding:14px 24px;}
+  .prog-icon{font-size:16px;}
+  .prog-pct{font-size:10px;}
+  .q-text{font-size:52px;}
+  .ans-btn{height:88px;border-radius:22px;}
+  .ans-grid{gap:12px;padding:12px 24px 0;}
+  .lm-title{font-size:22px;}
+  .sub-card{padding:14px 16px;}
+  .sub-name{font-size:15px;}
+  .result-title{font-size:36px!important;}
+}
+/* ── RESPONSIVE: Tablet landscape & large tablet ── */
+@media(min-width:821px){
+  body{padding:20px;background:#111;}
+  .phone{max-width:500px;height:min(95dvh,920px);margin:auto;border-radius:44px;}
+  .home-topbar{padding:52px 24px 0;}
+  .top-pill{padding:6px 14px;font-size:14px;}
+  .greeting-name{font-size:24px;}
+  .char-main-wrap{width:300px;height:300px;}
+  .circle-btn{width:76px;height:76px;gap:4px;} .cb-lbl{font-size:11px;}
+  .cb-icon-wrap{width:30px;height:30px;} .cb-icon-wrap svg{width:30px;height:30px;}
+  .q-text{font-size:52px;}
+  .ans-btn{height:88px;border-radius:22px;}
+  .ans-grid{gap:12px;padding:12px 24px 0;}
 }
 
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;-webkit-overflow-scrolling:touch;}
@@ -261,8 +315,6 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .sub-indicator.teal  {background:#CCFBF1;color:#0D9488;} .sub-indicator.indigo{background:#E0E7FF;color:#4338CA;}
 .sub-indicator.amber {background:#FEF3C7;color:#D97706;} .sub-indicator.emerald{background:#D1FAE5;color:#059669;}
 .q-top-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
-.q-mascot-lot{width:36px;height:36px;flex-shrink:0;animation:qRock 2s ease-in-out infinite;}
-@keyframes qRock{0%,100%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(5deg) scale(1.06)}}
 .q-speech{font-size:10px;color:#475569;font-weight:800;text-transform:uppercase;letter-spacing:.5px;background:rgba(0,0,0,.04);border-radius:10px;padding:4px 10px;flex:1;text-align:left;}
 .q-text{font-family:'Baloo 2',cursive;font-size:42px;color:#0F172A;letter-spacing:-1px;line-height:1;}
 .q-visual{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;min-height:40px;}
@@ -564,9 +616,9 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
     <div class="home-topbar">
       <div class="home-logo">MathKids ✨</div>
       <div class="home-top-right">
-        <div class="top-pill pill-stars"><img src="assets/star_medal.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="star-count">0</span></div>
-        <div class="top-pill" style="background:rgba(251,191,36,.2);border:1.5px solid rgba(251,191,36,.4);color:#FBBF24;"><img src="assets/coin.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="coin-count">0</span></div>
-        <div class="top-pill" style="background:rgba(249,115,22,.2);border:1.5px solid rgba(249,115,22,.4);color:#F97316;" id="streak-pill"><img src="assets/lightning.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="streak-count">0</span></div>
+        <div class="top-pill pill-stars" onclick="showPillInfo('stars')"><img src="assets/star_medal.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="star-count">0</span></div>
+        <div class="top-pill" style="background:rgba(251,191,36,.2);border:1.5px solid rgba(251,191,36,.4);color:#FBBF24;" onclick="showPillInfo('coins')"><img src="assets/coin.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="coin-count">0</span></div>
+        <div class="top-pill" style="background:rgba(249,115,22,.2);border:1.5px solid rgba(249,115,22,.4);color:#F97316;" id="streak-pill" onclick="showPillInfo('streak')"><img src="assets/lightning.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="streak-count">0</span></div>
         <div class="top-pill" style="background:rgba(139,92,246,.2);border:1.5px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;" onclick="openSubscribeModal()" id="premium-pill"><img src="assets/crown.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="premium-label">Trial</span></div>
         <div class="top-pill" style="background:rgba(139,92,246,.2);border:1.5px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;" onclick="openLangSwitcher()" id="lang-pill">🌐 <span id="lang-label">ID</span></div>
       </div>
@@ -735,7 +787,6 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
     <div class="q-card blue" id="q-card">
       <div class="sub-indicator blue" id="sub-indicator">Level 1A · Mudah</div>
       <div class="q-top-row">
-        <div class="q-mascot-lot" id="g-mascot-lot"></div>
         <div class="q-speech" id="g-speech">Hitung yuk!</div>
       </div>
       <div class="q-text" id="g-question"></div>
@@ -1352,7 +1403,15 @@ const FREE_CATS    = ['count', 'add', 'sub'];
 // Coin system
 function getCoins(){return parseInt(localStorage.getItem('mk_coins')||'0');}
 function setCoins(n){localStorage.setItem('mk_coins',String(n));const el=$("coin-count");if(el)el.textContent=n;}
-function addCoins(n){const c=getCoins()+n;setCoins(c);return c;}
+function addCoins(n,reason){
+  const c=getCoins()+n;setCoins(c);
+  // Server-side validation (async, non-blocking)
+  if(profile.uid) sbRpc("add_coins_validated",{p_uid:profile.uid,p_amount:n,p_reason:reason||''}).then(r=>{
+    if(r&&r[0]&&r[0].success){setCoins(r[0].new_balance);}
+    else if(r&&r[0]&&!r[0].success){setCoins(getCoins()-n);} // revert if server rejects
+  }).catch(()=>{});
+  return c;
+}
 function getOwnedChars(){return JSON.parse(localStorage.getItem('mk_owned_chars')||'["fox","tiger","cat1"]');}
 function ownChar(key){const o=getOwnedChars();if(!o.includes(key)){o.push(key);localStorage.setItem('mk_owned_chars',JSON.stringify(o));}return o;}
 function isCharOwned(key){return getOwnedChars().includes(key);}
@@ -2065,6 +2124,7 @@ function isUnlocked(c,l,s) {
    UTILS
 ══════════════════════════════════════ */
 const $ = id => document.getElementById(id);
+function localDate(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 // Speech synthesis
 const LANG_VOICE_MAP = {id:'id-ID',en:'en-US',ms:'ms-MY',fr:'fr-FR',ja:'ja-JP'};
@@ -2332,22 +2392,34 @@ let tapCount = 0, dailyShown = false;
 const TAP_EMOJIS = ["🎉","⭐","💫","🌟","✨","❤️","🎊","🏅","🥳","💎"];
 
 function goHome() {
+  // Anti-cheat: detect date manipulation
+  const nowTs=Date.now();
+  const lastTs=parseInt(localStorage.getItem('mk_last_ts')||'0');
+  const timeDrift=nowTs-lastTs;
+  const dateManipulated=lastTs>0&&(timeDrift<0||timeDrift>172800000); // negative or >48h jump
+  if(lastTs>0) localStorage.setItem('mk_last_ts',String(nowTs));
+  else localStorage.setItem('mk_last_ts',String(nowTs));
+
   // Daily streak check
-  const today=new Date().toISOString().slice(0,10);
+  const today=localDate();
   const lastDate=localStorage.getItem('mk_last_date')||'';
   let streakVal=parseInt(localStorage.getItem('mk_streak')||'0');
-  if(lastDate!==today){
+  if(lastDate!==today && !dateManipulated){
     const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-    const yd=yesterday.toISOString().slice(0,10);
+    const yd=localDate(yesterday);
     if(lastDate===yd){streakVal++;} else if(lastDate!==today){streakVal=1;}
     localStorage.setItem('mk_streak',String(streakVal));
     localStorage.setItem('mk_last_date',today);
     // Daily login coin + streak bonus
-    addCoins(1); // 1 coin per day login
-    if(streakVal===3){addCoins(2);totalStars+=50;saveAll();showToast('🔥 3 days! +2🪙 +50⭐');}
-    else if(streakVal===7){addCoins(5);totalStars+=150;saveAll();showToast('🔥 7 days! +5🪙 +150⭐');}
-    else if(streakVal===30){addCoins(10);totalStars+=500;saveAll();showToast('🔥 30 days! +10🪙 +500⭐');}
+    addCoins(1,'daily_login');
+    if(streakVal===3){addCoins(2,'streak_3');totalStars+=50;saveAll();showToast('🔥 3 days! +2🪙 +50⭐');}
+    else if(streakVal===7){addCoins(5,'streak_7');totalStars+=150;saveAll();showToast('🔥 7 days! +5🪙 +150⭐');}
+    else if(streakVal===30){addCoins(10,'streak_30');totalStars+=500;saveAll();showToast('🔥 30 days! +10🪙 +500⭐');}
     else{showToast(`+1🪙 ${({id:'Login harian',en:'Daily login',ms:'Login harian',fr:'Connexion',ja:'ログイン'})[lang]||'Daily login'}`);}
+  } else if(dateManipulated){
+    // Reset streak on date tampering
+    localStorage.setItem('mk_streak','0');localStorage.setItem('mk_last_date',today);
+    streakVal=0;
   }
   lang = profile.lang || "id";
   applyLangUI();
@@ -2362,7 +2434,7 @@ function goHome() {
   // Daily target & streak display
   const DAILY_TARGET=20;
   const stats=JSON.parse(localStorage.getItem("mk_stats")||'{}');
-  const todayKey=new Date().toISOString().slice(0,10);
+  const todayKey=localDate();
   const todayDone=(stats.daily?.[todayKey]?.answered)||0;
   const pctDone=Math.min(100,Math.round(todayDone/DAILY_TARGET*100));
   $("daily-target-bar").style.width=pctDone+"%";
@@ -2574,13 +2646,7 @@ function startSub(catId,lvl,sub) {
   $("g-prog").className        = `prog-fill-game ${cat.color}`;
   $("sub-indicator").className = `sub-indicator ${cat.color}`;
   $("sub-indicator").textContent = `${subLabel} · ${S("difficulty")[sub]}`;
-  // game mascot lottie
-  const gl = $("g-mascot-lot"); gl.innerHTML = "";
   if(gameLotAnim){gameLotAnim.destroy();gameLotAnim=null;}
-  if(LOTTIE_DATA[profile.char||"fox"]) {
-    gameLotAnim = lottie.loadAnimation({container:gl,animationData:LOTTIE_DATA[profile.char||"fox"],renderer:"svg",loop:true,autoplay:true});
-    gameLotAnim.setSpeed(0.8);
-  }
   $("gameover-overlay").classList.remove("open");
   $("sound-btn").textContent=soundOn?'🔊':'🔇';
   // Build question dots dynamically
@@ -2608,7 +2674,7 @@ function nextQ() {
   $("g-question").textContent = q.text||"";
   const vis = $("g-visual"); vis.innerHTML="";
   if(q.visual){for(let i=0;i<q.cnt;i++){const d=document.createElement("div");d.className="q-vi";d.textContent=curItem;d.style.animationDelay=(i*.05)+"s";vis.appendChild(d);}}
-  const useNumpad = curSub>=1 && !q.options && typeof curAns==='number';
+  const useNumpad = (curSub>=1 || curLvl>=5) && !q.options && typeof curAns==='number';
   const grid = $("g-answers"); grid.innerHTML="";
   if(useNumpad){
     // Numpad input for sub B & C (numeric answers only)
@@ -2653,7 +2719,7 @@ function checkAns(btn,val) {
   if(!canAns)return; canAns=false;
   // Track stats
   const stats=JSON.parse(localStorage.getItem("mk_stats")||'{}');
-  const today=new Date().toISOString().slice(0,10);
+  const today=localDate();
   if(!stats.totalAnswered)stats.totalAnswered=0;
   if(!stats.totalCorrect)stats.totalCorrect=0;
   if(!stats.daily)stats.daily={};
@@ -2684,14 +2750,32 @@ function checkAns(btn,val) {
     lives--; renderLives();
     pushPerf(curCat,false);
     if(lives<=0) setTimeout(()=>$("gameover-overlay").classList.add("open"),700);
-    else setTimeout(nextQ,1100);
+    else setTimeout(()=>{
+      // Stay on same question — reset UI but keep curAns & qNum
+      canAns=true;
+      if(isNumpad){
+        const d=$("np-val");if(d){d.textContent='';d.parentElement.style.background='#fff';d.parentElement.style.borderColor='#E2E8F0';}
+        // Reset npVal closure by rebuilding numpad enter handler
+        let npVal="";
+        document.querySelectorAll(".numpad-btn").forEach(b=>{
+          const txt=b.textContent;
+          if(txt==="⌫") b.onclick=()=>{npVal=npVal.slice(0,-1);$("np-val").textContent=npVal;};
+          else if(txt==="✓") b.onclick=()=>{if(!npVal)return;checkAns(b,parseInt(npVal));};
+          else b.onclick=()=>{if(npVal.length<6){npVal+=txt;$("np-val").textContent=npVal;}};
+        });
+      } else {
+        document.querySelectorAll(".ans-btn").forEach(b=>{b.classList.remove("wrong-ans","reveal-ans","correct-ans");b.onclick=()=>checkAns(b,b.querySelector(".ans-num")?.textContent);});
+      }
+    },1100);
   }
   if(!stats.bestStreak||maxStreak>stats.bestStreak)stats.bestStreak=maxStreak;
   // Daily target coin reward (3 coins when reaching 20 questions)
-  const _today=new Date().toISOString().slice(0,10);
+  const _today=localDate();
   const _td=stats.daily?.[_today]?.answered||0;
-  if(_td===20&&!localStorage.getItem('mk_daily_coin_'+_today)){
-    addCoins(3);localStorage.setItem('mk_daily_coin_'+_today,'1');
+  const _lastTs=parseInt(localStorage.getItem('mk_last_ts')||'0');
+  const _drift=Date.now()-_lastTs;
+  if(_td===20&&!localStorage.getItem('mk_daily_coin_'+_today)&&_drift>=0&&_drift<172800000){
+    addCoins(3,'daily_target');localStorage.setItem('mk_daily_coin_'+_today,'1');
     showToast('🎯 +3🪙 Daily target!');
   }
   localStorage.setItem("mk_stats",JSON.stringify(stats));
@@ -2898,7 +2982,7 @@ function showParentZone(){
   const ta=stats.totalAnswered||0,tc=stats.totalCorrect||0;
   const pct=ta>0?Math.round(tc/ta*100):0;
   const bs=stats.bestStreak||0;
-  const today=new Date().toISOString().slice(0,10);
+  const today=localDate();
   const todayStats=stats.daily?.[today]||{answered:0,correct:0};
   const todayPct=todayStats.answered>0?Math.round(todayStats.correct/todayStats.answered*100):0;
   const body=$("parent-body");
@@ -3033,7 +3117,7 @@ function startCharSwapAd(){
   const owned=isCharOwned(pendingChar);
   if(!owned){
     if(getCoins()<price){showToast(`🪙 ${({id:'Koin tidak cukup!',en:'Not enough coins!',ms:'Syiling tidak cukup!',fr:'Pas assez!',ja:'コイン不足！'})[lang]||'Not enough coins!'} (${getCoins()}/${price})`);return;}
-    addCoins(-price);ownChar(pendingChar);
+    addCoins(-price,'buy_char_'+pendingChar);ownChar(pendingChar);
   }
   $("modal-char").classList.remove("open");
   profile.char=pendingChar; saveAll();
@@ -3096,6 +3180,14 @@ function launchConfetti(n=20){
 }
 let toastT;
 function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2300);}
+function showPillInfo(type){
+  const info={
+    stars:{id:'🏅 Total bintang dari semua level',en:'🏅 Total stars from all levels',ms:'🏅 Jumlah bintang dari semua tahap',fr:'🏅 Total des étoiles de tous les niveaux',ja:'🏅 全レベルの合計スター'},
+    coins:{id:'🪙 Koin untuk beli karakter baru',en:'🪙 Coins to buy new characters',ms:'🪙 Syiling untuk beli watak baru',fr:'🪙 Pièces pour acheter des personnages',ja:'🪙 新キャラ購入用コイン'},
+    streak:{id:'⚡ Hari berturut-turut kamu belajar',en:'⚡ Consecutive days of learning',ms:'⚡ Hari berturut-turut belajar',fr:'⚡ Jours consécutifs d\'apprentissage',ja:'⚡ 連続学習日数'}
+  };
+  showToast(info[type][lang]||info[type].en);
+}
 
 function showStats(){
   const stats=JSON.parse(localStorage.getItem("mk_stats")||'{}');
@@ -3129,7 +3221,7 @@ function showStats(){
   const daily=stats.daily||{};
   for(let i=6;i>=0;i--){
     const d=new Date();d.setDate(d.getDate()-i);
-    const key=d.toISOString().slice(0,10);
+    const key=localDate(d);
     const cnt=daily[key]?.answered||0;
     const maxD=Math.max(...Object.values(daily).map(v=>v.answered||0),1);
     const h=Math.max(cnt/maxD*100,4);
