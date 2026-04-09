@@ -3788,9 +3788,8 @@ function doSubscribe() {
 function openLangSwitcher(){openModal('modal-lang');}
 function switchLang(l){
   lang=l;profile.lang=l;saveAll();
-  applyLangUI();updateProgress();
   closeModal('modal-lang');
-  $("lang-label").textContent=l.toUpperCase();
+  goHome();
   showToast({id:'🇮🇩 Bahasa Indonesia',en:'🇬🇧 English',ms:'🇲🇾 Bahasa Melayu',fr:'🇫🇷 Français',ja:'🇯🇵 日本語'}[l]||l);
 }
 
