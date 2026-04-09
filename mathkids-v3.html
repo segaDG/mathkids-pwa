@@ -3188,7 +3188,7 @@ const CONF_COLORS = ["#F87171","#FBBF24","#34D399","#60A5FA","#A78BFA","#F472B6"
 const COMBOS = ["","","","🔥 Combo x3!","🔥 x4!","⚡ x5!","💥 MAX!!"];
 
 let curCat="count",curLvl=0,curSub=0;
-let gScore=0,qNum=0,correct=0,streak=0,maxStreak=0,canAns=true,curAns=0;
+let gScore=0,qNum=0,correct=0,streak=0,maxStreak=0,canAns=true,curAns=0,retriedQ=false;
 let curItem="🍎",lives=MAX_LIVES,levelsDone=0,gameLotAnim=null;
 
 // Adaptive difficulty tracking
@@ -3200,7 +3200,7 @@ function renderLives() { for(let i=0;i<MAX_LIVES;i++) $("life"+i).classList.togg
 
 function startSub(catId,lvl,sub) {
   curCat=catId; curLvl=lvl; curSub=sub;
-  gScore=0; qNum=0; correct=0; streak=0; maxStreak=0; lives=MAX_LIVES; curItem=pick(VIS_ITEMS); usedExtraLife=false;
+  gScore=0; qNum=0; correct=0; streak=0; maxStreak=0; lives=MAX_LIVES; curItem=pick(VIS_ITEMS); usedExtraLife=false; retriedQ=false;
   const cat = CATS.find(c=>c.id===catId);
   const sv = LEVELS[catId][lvl].subs[sub];
   const subLabel = `Lvl ${lvl+1}${SUB_LABELS[sub]}`;
@@ -3223,7 +3223,7 @@ function replaySub() { $("gameover-overlay").classList.remove("open"); startSub(
 
 function nextQ() {
   if(qNum>=TOTAL_Q){endGame();return;}
-  canAns = true;
+  canAns = true; retriedQ=false;
   $("g-prog").style.width = (qNum/TOTAL_Q*100)+"%";
   $("g-q-label").textContent = `${S("q_label")} ${qNum+1} ${S("of")} ${TOTAL_Q}`;
   document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<streak));
@@ -3295,7 +3295,9 @@ function checkAns(btn,val) {
   if(String(val)===String(curAns)){
     if(isNumpad){const d=$("np-val");if(d)d.parentElement.style.background='#DCFCE7';if(d)d.parentElement.style.borderColor='#4ADE80';}
     else btn.classList.add("correct-ans");
-    const pts=10+streak*3+curLvl*2; gScore+=pts; correct++; streak++; maxStreak=Math.max(maxStreak,streak);
+    const pts=retriedQ?5:(10+streak*3+curLvl*2); gScore+=pts;
+    if(!retriedQ){correct++; streak++; maxStreak=Math.max(maxStreak,streak);}
+    else{streak=0;}
     stats.totalCorrect++;stats.daily[today].correct++;stats.byCat[curCat].correct++;
     pushPerf(curCat,true);
     $("g-score").textContent=gScore;
@@ -3305,8 +3307,9 @@ function checkAns(btn,val) {
     if(streak>=3){launchConfetti(streak>=5?28:14);const cb=$("combo");cb.textContent=COMBOS[Math.min(streak,COMBOS.length-1)];cb.classList.remove("show");void cb.offsetWidth;cb.classList.add("show");}
     setTimeout(nextQ,680);
   } else {
-    if(isNumpad){const d=$("np-val");if(d){d.parentElement.style.background='#FEE2E2';d.parentElement.style.borderColor='#F87171';d.textContent=curAns;}}
-    else{btn.classList.add("wrong-ans");document.querySelectorAll(".ans-btn").forEach(b=>{if(b.querySelector(".ans-num")&&b.querySelector(".ans-num").textContent==curAns)b.classList.add("reveal-ans");});}
+    retriedQ=true;
+    if(isNumpad){const d=$("np-val");if(d){d.parentElement.style.background='#FEE2E2';d.parentElement.style.borderColor='#F87171';}}
+    else{btn.classList.add("wrong-ans");}
     streak=0;
     document.querySelectorAll(".gstp").forEach(p=>p.classList.toggle("on",false));
     showFeedback("💔");
