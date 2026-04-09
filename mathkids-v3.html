@@ -3039,6 +3039,12 @@ function _drawCanvasMap(catId){
         else{ctx.beginPath();ctx.rect(lbx,lby,lbw,lbh);ctx.fill();}
         ctx.restore();
         ctx.fillStyle="rgba(255,255,255,.9)";ctx.font="900 "+(W*.026)+"px 'Baloo 2',cursive";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("🔒",p.x,lby+lbh*.52);
+        /* Example text below locked node */
+        const exTxt=levels[g]?.subs[s]?.ex||'';
+        if(exTxt){
+          ctx.save();ctx.globalAlpha=.45;ctx.fillStyle="#374151";ctx.font="600 "+(W*.028)+"px 'Nunito',sans-serif";ctx.textAlign="center";ctx.textBaseline="top";
+          ctx.fillText(exTxt,p.x,p.y+R+W*.02);ctx.restore();
+        }
         ctx.globalAlpha=1;
       }
     }
