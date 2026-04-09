@@ -3029,7 +3029,16 @@ function _drawCanvasMap(catId){
         else{ ctx.fillStyle="rgba(255,255,255,.9)"; ctx.beginPath(); ctx.arc(p.x,p.y,R*.27,0,Math.PI*2); ctx.fill(); }
       } else {
         ctx.beginPath(); ctx.arc(p.x,p.y,R*.74,0,Math.PI*2); ctx.fillStyle="#9CA3AF"; ctx.fill();
-        ctx.font=(R*.7)+"px system-ui"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("🔒",p.x,p.y+R*.04);
+        ctx.save(); ctx.globalAlpha=.22; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.ellipse(p.x-R*.2,p.y-R*.24,R*.34,R*.2,-0.4,0,Math.PI*2); ctx.fill(); ctx.restore();
+        if(isM){ ctx.fillStyle="rgba(255,255,255,.7)"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
+        else{ ctx.fillStyle="rgba(255,255,255,.5)"; ctx.beginPath(); ctx.arc(p.x,p.y,R*.27,0,Math.PI*2); ctx.fill(); }
+        /* LOCK badge */
+        const lbw=W*.14,lbh=W*.048,lbx=p.x-lbw/2,lby=p.y-R-lbh-W*.01;
+        ctx.save();ctx.shadowColor="rgba(0,0,0,.15)";ctx.shadowBlur=6;ctx.shadowOffsetY=2;ctx.fillStyle="#6B7280";
+        if(ctx.roundRect){ctx.beginPath();ctx.roundRect(lbx,lby,lbw,lbh,lbh/2);ctx.fill();}
+        else{ctx.beginPath();ctx.rect(lbx,lby,lbw,lbh);ctx.fill();}
+        ctx.restore();
+        ctx.fillStyle="rgba(255,255,255,.9)";ctx.font="900 "+(W*.026)+"px 'Baloo 2',cursive";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("🔒",p.x,lby+lbh*.52);
         ctx.globalAlpha=1;
       }
     }
