@@ -3470,7 +3470,7 @@ function nextQ() {
   else $("g-question").textContent=q.text||"";
   const vis = $("g-visual"); vis.innerHTML="";
   if(q.visual){for(let i=0;i<q.cnt;i++){const d=document.createElement("div");d.className="q-vi";d.textContent=curItem;d.style.animationDelay=(i*.05)+"s";vis.appendChild(d);}}
-  const useNumpad = curCat!=='time' && (curSub>=1 || curLvl>=5) && !q.options && typeof curAns==='number';
+  const useNumpad = curCat!=='time' && curCat!=='shape' && (curSub>=1 || curLvl>=5) && !q.options && typeof curAns==='number';
   const grid = $("g-answers"); grid.innerHTML="";
   if(useNumpad){
     // Numpad input for sub B & C (numeric answers only)
