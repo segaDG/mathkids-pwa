@@ -320,8 +320,11 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .q-visual{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;min-height:40px;}
 .q-vi{font-size:34px;animation:viPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes viPop{0%{transform:scale(0) rotate(-30deg);opacity:0}100%{transform:scale(1);opacity:1}}
-.money-badge{display:inline-block;background:linear-gradient(135deg,#16A34A,#15803D);color:#fff;font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;padding:4px 14px;border-radius:12px;margin:2px 3px;box-shadow:0 3px 0 #166534,inset 0 1px 0 rgba(255,255,255,.25);position:relative;border:2px solid #14532D;letter-spacing:.5px;}
-.money-badge::before{content:"";position:absolute;top:2px;left:6px;right:6px;height:40%;background:rgba(255,255,255,.15);border-radius:8px 8px 50% 50%;}
+.money-badge{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:52px;border-radius:6px;margin:2px 4px;position:relative;font-family:'Baloo 2',cursive;vertical-align:middle;box-shadow:2px 3px 0 rgba(0,0,0,.15);}
+.money-badge .mb-sym{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);line-height:1;margin-bottom:-2px;}
+.money-badge .mb-val{font-size:22px;font-weight:900;color:#fff;line-height:1;}
+.money-badge::before{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:rgba(255,255,255,.18);border-radius:6px 6px 0 0;}
+.money-badge::after{content:"";position:absolute;inset:0;border:2px solid rgba(255,255,255,.2);border-radius:6px;pointer-events:none;}
 .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:9px 20px 0;flex-shrink:0;}
 .ans-btn{border-radius:18px;height:74px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:transform .14s,box-shadow .14s;font-family:'Baloo 2',cursive;}
 .ans-btn::before{content:"";position:absolute;top:0;left:0;right:0;height:44%;background:rgba(255,255,255,.18);border-radius:18px 18px 50% 50%;}
@@ -3428,7 +3431,13 @@ function nextQ() {
   let qText=(q.text||"").replace(/\{\{clock:(\d+):(\d+)\}\}/g,(_,h,m)=>clockHTML(+h,+m,'140px'));
   if(curCat==='money'){
     const sym=getCur().sym.replace(/\$/g,'\\$');
-    qText=qText.replace(new RegExp(`(${sym})(\\d[\\d,.]*)`, 'g'),(_,s,n)=>`<span class="money-badge">${s}${n}</span>`);
+    const _mbColors=['#3B82F6','#EF4444','#10B981','#F59E0B','#8B5CF6','#EC4899'];
+    let _mbIdx=0;
+    qText=qText.replace(new RegExp(`(${sym})(\\d[\\d,.]*)`, 'g'),(_,s,n)=>{
+      const num=parseInt(n);const display=num>=1000?(num/1000)+'K':n;
+      const bg=_mbColors[_mbIdx++%_mbColors.length];
+      return `<span class="money-badge" style="background:${bg}"><span class="mb-sym">${s}</span><span class="mb-val">${display}</span></span>`;
+    });
   }
   if(qText.includes('<')){$("g-question").innerHTML=qText.replace(/\n/g,'<br>');}
   else $("g-question").textContent=q.text||"";
