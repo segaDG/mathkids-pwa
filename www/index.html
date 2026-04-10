@@ -715,6 +715,7 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
         <div class="top-pill" style="background:rgba(249,115,22,.2);border:1.5px solid rgba(249,115,22,.4);color:#F97316;" id="streak-pill" onclick="showPillInfo('streak')"><img src="assets/lightning.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="streak-count">0</span></div>
         <div class="top-pill" style="background:rgba(139,92,246,.2);border:1.5px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;" onclick="openSubscribeModal()" id="premium-pill"><img src="assets/crown.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="premium-label">Trial</span></div>
         <div class="top-pill" style="background:rgba(139,92,246,.2);border:1.5px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;" onclick="openLangSwitcher()" id="lang-pill">🌐 <span id="lang-label">ID</span></div>
+        <div class="top-pill" style="background:rgba(16,185,129,.2);border:1.5px solid rgba(16,185,129,.4);color:#10B981;font-size:11px;" onclick="openCurSwitcher()" id="cur-pill">💰 <span id="cur-label">$</span></div>
       </div>
     </div>
     <div class="home-greeting">
@@ -989,6 +990,16 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
         <button class="lang-btn" onclick="switchLang('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></button>
       </div>
       <button class="modal-cancel" onclick="closeModal('modal-lang')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CURRENCY SWITCHER MODAL -->
+  <div class="modal-overlay" id="modal-cur" onclick="closeModal('modal-cur',event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-title">💰 Currency</div>
+      <div class="lang-grid" id="cur-grid" style="margin-bottom:16px;"></div>
+      <button class="modal-cancel" onclick="closeModal('modal-cur')">Cancel</button>
     </div>
   </div>
 
@@ -1537,7 +1548,26 @@ const timeActivityQ = () => {
 /* ══════ MONEY HELPERS (multilingual) ══════ */
 const CURRENCY={id:{sym:"Rp",coins:[100,200,500,1000,2000,5000],bills:[10000,20000,50000]},en:{sym:"$",coins:[1,5,10,25,50],bills:[1,5,10,20]},ms:{sym:"RM",coins:[5,10,20,50],bills:[1,5,10,50]},fr:{sym:"€",coins:[1,2,5,10,20,50],bills:[5,10,20,50]},ja:{sym:"¥",coins:[1,5,10,50,100,500],bills:[1000,5000,10000]},sg:{sym:"S$",coins:[5,10,20,50],bills:[2,5,10,50]},au:{sym:"A$",coins:[5,10,20,50],bills:[5,10,20,50,100]},gb:{sym:"£",coins:[1,2,5,10,20,50],bills:[5,10,20,50]}};
 const COUNTRY_CURRENCY={ID:'id',MY:'ms',SG:'sg',US:'en',GB:'gb',AU:'au',FR:'fr',JP:'ja'};
-function getCur(){const c=(profile.country||'US').toUpperCase();return CURRENCY[COUNTRY_CURRENCY[c]]||CURRENCY.en;}
+const CUR_SPEECH={id:'rupiah',en:'dollars',ms:'ringgit',fr:'euros',ja:'yen',sg:'dollars',au:'dollars',gb:'pounds'};
+const CUR_LIST=[
+  {key:'id',label:'🇮🇩 Rupiah (Rp)',sym:'Rp'},
+  {key:'en',label:'🇺🇸 Dollar ($)',sym:'$'},
+  {key:'gb',label:'🇬🇧 Pound (£)',sym:'£'},
+  {key:'fr',label:'🇫🇷 Euro (€)',sym:'€'},
+  {key:'ja',label:'🇯🇵 Yen (¥)',sym:'¥'},
+  {key:'ms',label:'🇲🇾 Ringgit (RM)',sym:'RM'},
+  {key:'sg',label:'🇸🇬 SGD (S$)',sym:'S$'},
+  {key:'au',label:'🇦🇺 AUD (A$)',sym:'A$'},
+];
+let _curOverride=localStorage.getItem('mk_cur_override')||'';
+function getCur(){
+  if(_curOverride&&CURRENCY[_curOverride]) return CURRENCY[_curOverride];
+  const c=(profile.country||'US').toUpperCase();return CURRENCY[COUNTRY_CURRENCY[c]]||CURRENCY.en;
+}
+function getCurKey(){
+  if(_curOverride) return _curOverride;
+  const c=(profile.country||'US').toUpperCase();return COUNTRY_CURRENCY[c]||'en';
+}
 const moneyCountQ = (numCoins) => {
   const cur=getCur();
   let total=0;const items=[];
@@ -2404,6 +2434,9 @@ function speakAnswer(text, isCorrect) {
     if(curCat==='time'&&typeof text==='number'){
       const clk={id:` jam. ${v('correct')}`,en:` o'clock. ${v('correct')}`,ms:` pukul. ${v('correct')}`,fr:` heures. ${v('correct')}`,ja:`時. ${v('correct')}`};
       msg=String(text)+(clk[lang]||clk.en);
+    } else if(curCat==='money'&&typeof text==='number'){
+      const cur=getCur();const curName=CUR_SPEECH[getCurKey()]||'';
+      msg=`${cur.sym}${text} ${curName}. ${v('correct')}`;
     } else msg+='. '+v('correct');
     speak(msg);
   } else speak(v('tryAgain'), {rate:0.8});
@@ -2716,6 +2749,7 @@ function goHome() {
   const _cc=$("coin-count");if(_cc)_cc.textContent=getCoins();
   $("streak-count").textContent = localStorage.getItem('mk_streak')||'0';
   $("lang-label").textContent = (profile.lang||lang||'id').toUpperCase();
+  const _cl=$("cur-label");if(_cl)_cl.textContent=getCur().sym;
   const streakDisp=localStorage.getItem('mk_streak')||'0';
   $("daily-desc").textContent=S("daily_desc")+`\n🔥 Streak: ${streakDisp} ${{id:"hari",en:"days",ms:"hari",fr:"jours",ja:"日"}[lang]}`;
   // Daily target & streak display
@@ -3881,6 +3915,18 @@ function doSubscribe() {
 }
 
 function openLangSwitcher(){openModal('modal-lang');}
+function openCurSwitcher(){
+  const grid=$("cur-grid");grid.innerHTML="";
+  const curKey=getCurKey();
+  CUR_LIST.forEach(c=>{
+    const btn=document.createElement("button");
+    btn.className="lang-btn"+(c.key===curKey?" sel":"");
+    btn.innerHTML=`<span class="lang-flag">${c.label.split(' ')[0]}</span><span class="lang-name">${c.label.split(' ').slice(1).join(' ')}</span>`;
+    btn.onclick=()=>{_curOverride=c.key;localStorage.setItem('mk_cur_override',c.key);closeModal('modal-cur');$("cur-label").textContent=c.sym;showToast(`💰 ${c.label}`);};
+    grid.appendChild(btn);
+  });
+  openModal('modal-cur');
+}
 function switchLang(l){
   lang=l;profile.lang=l;saveAll();
   closeModal('modal-lang');
