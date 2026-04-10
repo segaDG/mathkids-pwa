@@ -1284,8 +1284,8 @@ const _clockTimes=[[12,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],
 const _clockImgs={};
 function _makeClockSVG(h,m){
   const hDeg=(h%12)*30+m*0.5, mDeg=m*6;
+  const ns='font-family="Arial Black,sans-serif" font-weight="900" text-anchor="middle" stroke="#FFF9EF" stroke-width="5" paint-order="stroke" fill="#1A2340"';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="260" viewBox="0 0 240 260">`
-  +`<rect width="240" height="260" rx="20" fill="#56B4E9"/>`
   // Bell ears
   +`<circle cx="68" cy="28" r="22" fill="#1A2340"/><circle cx="172" cy="28" r="22" fill="#1A2340"/>`
   +`<circle cx="68" cy="28" r="14" fill="#FCD34D"/><circle cx="172" cy="28" r="14" fill="#FCD34D"/>`
@@ -1300,11 +1300,11 @@ function _makeClockSVG(h,m){
     const big=[0,90,180,270].includes(a);
     return `<rect x="${big?114:116}" y="${big?56:60}" width="${big?12:8}" height="${big?18:12}" rx="${big?6:4}" fill="${big?'#1A2340':'#9CA3AF'}" transform="rotate(${a},120,138)"/>`;
   }).join('')
-  // Numbers
-  +`<text x="120" y="82" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" font-weight="900" fill="#1A2340">12</text>`
-  +`<text x="182" y="145" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" font-weight="900" fill="#1A2340">3</text>`
-  +`<text x="120" y="210" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" font-weight="900" fill="#1A2340">6</text>`
-  +`<text x="58" y="145" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" font-weight="900" fill="#1A2340">9</text>`
+  // Numbers with stroke
+  +`<text x="120" y="82" ${ns} font-size="22">12</text>`
+  +`<text x="182" y="145" ${ns} font-size="22">3</text>`
+  +`<text x="120" y="210" ${ns} font-size="22">6</text>`
+  +`<text x="58" y="145" ${ns} font-size="22">9</text>`
   // Hour hand
   +`<g transform="rotate(${hDeg},120,138)"><rect x="113" y="82" width="14" height="60" rx="7" fill="#1A2340"/></g>`
   // Minute hand
