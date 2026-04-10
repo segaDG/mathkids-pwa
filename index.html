@@ -2345,8 +2345,14 @@ const v = (key) => {
   return val[lang]||val.en||'';
 };
 function speakAnswer(text, isCorrect) {
-  if(isCorrect) speak(String(text) + '. ' + v('correct'));
-  else speak(v('tryAgain'), {rate:0.8});
+  if(isCorrect){
+    let msg=String(text);
+    if(curCat==='time'&&typeof text==='number'){
+      const clk={id:` jam. ${v('correct')}`,en:` o'clock. ${v('correct')}`,ms:` pukul. ${v('correct')}`,fr:` heures. ${v('correct')}`,ja:`時. ${v('correct')}`};
+      msg=String(text)+(clk[lang]||clk.en);
+    } else msg+='. '+v('correct');
+    speak(msg);
+  } else speak(v('tryAgain'), {rate:0.8});
 }
 function speakResult(starCount) {
   if(starCount>=3) speak(v('perfect'), {rate:0.85, pitch:1.2});
@@ -2982,9 +2988,9 @@ function _drawCanvasMap(catId){
   canvas.style.display = "block";
   $("level-map").style.display = "none";
 
-  /* layout */
+  /* layout — scale down for large level counts */
   const PX=W*.14, LX=PX, CX=W*.5, RX=W-PX;
-  const GH=W*.52, PAD_T=W*.16, PAD_B=W*.22;
+  const GH=N>20?W*.38:N>15?W*.44:W*.52, PAD_T=W*.16, PAD_B=W*.22;
   const DIP=GH*.12, RISE=GH*.22;
   const H = PAD_T + GH*N + PAD_B;
 
@@ -3035,8 +3041,9 @@ function _drawCanvasMap(catId){
   function tri(x,y,h){ctx.save();ctx.globalAlpha=.48;ctx.fillStyle="#22C55E";ctx.beginPath();ctx.moveTo(x,y-h);ctx.lineTo(x-h*.44,y);ctx.lineTo(x+h*.44,y);ctx.closePath();ctx.fill();ctx.fillStyle="#15803D";ctx.beginPath();ctx.moveTo(x,y-h*.72);ctx.lineTo(x-h*.3,y-h*.2);ctx.lineTo(x+h*.3,y-h*.2);ctx.closePath();ctx.fill();ctx.globalAlpha=.42;ctx.fillStyle="#92400E";ctx.fillRect(x-h*.07,y,h*.14,h*.26);ctx.restore();}
   for(let g=0;g<N;g++){ const yy=sPos(g,0).y+GH*.52; tri(W*.07,yy,W*.13); tri(W*.93,yy,W*.11); }
 
-  /* nodes */
-  const RM=W*.095, RS=W*.072, RB=W*.082;
+  /* nodes — scale down for many levels */
+  const _ns=N>20?.82:N>15?.9:1;
+  const RM=W*.095*_ns, RS=W*.072*_ns, RB=W*.082;
   let animN=null;
 
   for(let g=0;g<N;g++){
@@ -3100,9 +3107,11 @@ function _drawCanvasMap(catId){
 
   if(!animN){ oc.clearRect(0,0,W,H); setTimeout(()=>{wrap.scrollTop=0;},150); return; }
   const {p:cp,R:cR,isM:cIsM,g:cg}=animN;
-  let t=0;
-  function animF(){
-    oc.clearRect(0,0,W,H); t+=0.05;
+  let t=0,lastFrame=0;
+  const clipR=cR*2.5,clipX=cp.x-clipR-W*.05,clipY=cp.y-clipR-W*.1,clipW=clipR*2+W*.1,clipH=clipR*2+W*.16;
+  function animF(ts){
+    if(ts-lastFrame<33){window.__lmAF=requestAnimationFrame(animF);return;} lastFrame=ts;
+    oc.clearRect(clipX-2,clipY-2,clipW+4,clipH+4); t+=0.05;
     const pulse=1+0.08*Math.abs(Math.sin(t));
     /* rings */
     for(let ri=3;ri>=1;ri--){ oc.save();oc.globalAlpha=.10*ri*Math.abs(Math.sin(t+ri*.5));oc.strokeStyle="#FBBF24";oc.lineWidth=W*.01;oc.beginPath();oc.arc(cp.x,cp.y,cR+W*(.015+ri*.017),0,Math.PI*2);oc.stroke();oc.restore(); }
@@ -3310,7 +3319,7 @@ function nextQ() {
   canAns = true; retriedQ=false;
   $("g-prog").style.width = (qNum/TOTAL_Q*100)+"%";
   $("g-q-label").textContent = `${S("q_label")} ${qNum+1} ${S("of")} ${TOTAL_Q}`;
-  document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<streak));
+  document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<qNum));
   // Generate question
   let q;
   if(bossMode && bossGens.length>0){
@@ -3391,7 +3400,7 @@ function checkAns(btn,val) {
     stats.totalCorrect++;stats.daily[today].correct++;stats.byCat[curCat].correct++;
     pushPerf(curCat,true);
     $("g-score").textContent=gScore;
-    document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<streak));
+    document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<qNum));
     showFeedback(pick(["⭐","🌟","✨","💫","🎉","🏅"]));
     speakAnswer(curAns, true);
     if(streak>=3){launchConfetti(streak>=5?28:14);const cb=$("combo");cb.textContent=COMBOS[Math.min(streak,COMBOS.length-1)];cb.classList.remove("show");void cb.offsetWidth;cb.classList.add("show");}
@@ -3401,7 +3410,7 @@ function checkAns(btn,val) {
     if(isNumpad){const d=$("np-val");if(d){d.parentElement.style.background='#FEE2E2';d.parentElement.style.borderColor='#F87171';}}
     else{btn.classList.add("wrong-ans");}
     streak=0;
-    document.querySelectorAll(".gstp").forEach(p=>p.classList.toggle("on",false));
+    document.querySelectorAll(".gstp").forEach((p,i)=>p.classList.toggle("on",i<qNum));
     showFeedback("💔");
     speakAnswer('', false);
     lives--; renderLives();
