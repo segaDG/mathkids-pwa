@@ -712,7 +712,6 @@ body{font-family:'Nunito',sans-serif;background:#111;display:flex;align-items:ce
         <div class="top-pill" style="background:rgba(249,115,22,.2);border:1.5px solid rgba(249,115,22,.4);color:#F97316;" id="streak-pill" onclick="showPillInfo('streak')"><img src="assets/lightning.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="streak-count">0</span></div>
         <div class="top-pill" style="background:rgba(139,92,246,.2);border:1.5px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;" onclick="openSubscribeModal()" id="premium-pill"><img src="assets/crown.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="premium-label">Trial</span></div>
         <div class="top-pill" style="background:rgba(139,92,246,.2);border:1.5px solid rgba(139,92,246,.4);color:#A78BFA;font-size:11px;" onclick="openLangSwitcher()" id="lang-pill">🌐 <span id="lang-label">ID</span></div>
-        <div class="top-pill" style="background:rgba(16,185,129,.2);border:1.5px solid rgba(16,185,129,.4);color:#10B981;font-size:11px;" onclick="openCurSwitcher()" id="cur-pill">💰 <span id="cur-label">$</span></div>
       </div>
     </div>
     <div class="home-greeting">
@@ -898,6 +897,7 @@ body{font-family:'Nunito',sans-serif;background:#111;display:flex;align-items:ce
       </div>
       <span class="game-lvl-pill" id="g-lvl-pill">Level 1A</span>
       <button onclick="toggleSound()" id="sound-btn" style="width:32px;height:32px;border-radius:10px;background:#fff;border:2px solid #E2E8F0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;">🔊</button>
+      <button onclick="openCurSwitcher()" id="game-cur-btn" style="display:none;height:28px;padding:0 10px;border-radius:8px;background:#D1FAE5;border:2px solid #10B981;color:#059669;font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;flex-shrink:0;">💰 $</button>
       <div class="game-score-pill"><span>⭐</span><strong id="g-score">0</strong></div>
     </div>
     <div class="lives-row" id="lives-row">
@@ -2746,7 +2746,6 @@ function goHome() {
   const _cc=$("coin-count");if(_cc)_cc.textContent=getCoins();
   $("streak-count").textContent = localStorage.getItem('mk_streak')||'0';
   $("lang-label").textContent = (profile.lang||lang||'id').toUpperCase();
-  const _cl=$("cur-label");if(_cl)_cl.textContent=getCur().sym;
   const streakDisp=localStorage.getItem('mk_streak')||'0';
   $("daily-desc").textContent=S("daily_desc")+`\n🔥 Streak: ${streakDisp} ${{id:"hari",en:"days",ms:"hari",fr:"jours",ja:"日"}[lang]}`;
   // Daily target & streak display
@@ -3355,6 +3354,7 @@ function startSub(catId,lvl,sub) {
   if(gameLotAnim){gameLotAnim.destroy();gameLotAnim=null;}
   $("gameover-overlay").classList.remove("open");
   $("sound-btn").textContent=soundOn?'🔊':'🔇';
+  const _gcb=$("game-cur-btn");if(_gcb){_gcb.style.display=catId==='money'?'block':'none';_gcb.textContent=`💰 ${getCur().sym}`;}
   // Build question dots dynamically
   const gStreak=$("g-streak");gStreak.innerHTML="";
   for(let i=0;i<TOTAL_Q;i++){const d=document.createElement("div");d.className="gstp";gStreak.appendChild(d);}
@@ -3394,6 +3394,7 @@ function startBossLevel(catId){
   if(gameLotAnim){gameLotAnim.destroy();gameLotAnim=null;}
   $("gameover-overlay").classList.remove("open");
   $("sound-btn").textContent=soundOn?'🔊':'🔇';
+  const _gcb2=$("game-cur-btn");if(_gcb2){_gcb2.style.display=catId==='money'?'block':'none';_gcb2.textContent=`💰 ${getCur().sym}`;}
   const gStreak=$("g-streak");gStreak.innerHTML="";
   for(let i=0;i<TOTAL_Q;i++){const d=document.createElement("div");d.className="gstp";gStreak.appendChild(d);}
   renderLives(); showScreen("s-game"); nextQ();
