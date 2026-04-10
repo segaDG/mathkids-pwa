@@ -1279,6 +1279,26 @@ const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
 const pick = a => a[Math.floor(Math.random()*a.length)];
 function catIcon(cat,sz){return cat.img?`<img src="${cat.img}" style="width:${sz||'1em'};height:${sz||'1em'};vertical-align:middle;">`:cat.icon;}
 
+/* Clock face generator for canvas */
+const _clockTimes=[[12,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,30],[1,30],[2,30],[3,30],[4,30],[5,30],[6,30],[7,30],[8,30],[9,30],[10,30],[11,30],[1,15],[2,15],[3,45],[4,45],[5,15],[6,45]];
+const _clockImgs={};
+function _makeClockSVG(h,m){
+  const hDeg=(h%12)*30+m*0.5, mDeg=m*6;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="98" fill="#1A2340"/><circle cx="100" cy="100" r="90" fill="#FFF9EF"/><circle cx="100" cy="100" r="90" fill="none" stroke="#C8A850" stroke-width="2"/>`
+  +[0,30,60,90,120,150,180,210,240,270,300,330].map(a=>`<rect x="96" y="8" width="8" height="${[0,90,180,270].includes(a)?16:10}" rx="4" fill="${[0,90,180,270].includes(a)?'#1A2340':'#B0B8C8'}" transform="rotate(${a},100,100)"/>`).join('')
+  +`<g transform="rotate(${hDeg},100,100)"><rect x="94" y="40" width="12" height="64" rx="6" fill="#1A2340"/></g>`
+  +`<g transform="rotate(${mDeg},100,100)"><rect x="95" y="16" width="10" height="88" rx="5" fill="#E53935"/></g>`
+  +`<circle cx="100" cy="100" r="8" fill="#1A2340"/><circle cx="100" cy="100" r="5" fill="#E53935"/></svg>`;
+}
+function _preloadClocks(){
+  _clockTimes.forEach(([h,m],i)=>{
+    const img=new Image();
+    img.src='data:image/svg+xml;base64,'+btoa(_makeClockSVG(h,m));
+    _clockImgs[i]=img;
+  });
+}
+_preloadClocks();
+
 /* ══════ MULTILINGUAL QUESTION TEXT ══════ */
 const T = {
   howManySides: {id:"berapa sisi?",en:"how many sides?",ms:"berapa sisi?",fr:"combien de côtés?",ja:"何辺？"},
@@ -3056,16 +3076,22 @@ function _drawCanvasMap(catId){
       if(st==="done"){ const ng=ctx.createRadialGradient(p.x-R*.2,p.y-R*.2,0,p.x,p.y,R);ng.addColorStop(0,"#EF4444");ng.addColorStop(1,"#B91C1C");ctx.fillStyle=ng; }
       else ctx.fillStyle="#D1D5DB";
       ctx.fill(); ctx.restore();
+      const _isTime=catId==='time';
+      const _clkIdx=(g*3+s)%_clockTimes.length;
       if(st==="done"){
         ctx.beginPath(); ctx.arc(p.x,p.y,R*.74,0,Math.PI*2); ctx.fillStyle="#DC2626"; ctx.fill();
         ctx.save(); ctx.globalAlpha=.28; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.ellipse(p.x-R*.2,p.y-R*.24,R*.34,R*.2,-0.4,0,Math.PI*2); ctx.fill(); ctx.restore();
         if(stars>0){ for(let i=0;i<3;i++){ ctx.globalAlpha=i<stars?1:.2; ctx.font=(R*.52)+"px system-ui"; ctx.textAlign="center"; ctx.textBaseline="top"; ctx.fillText("⭐",p.x+(i-1)*R*.88,p.y+R+R*.06); } ctx.globalAlpha=1; }
-        if(isM){ ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
+        if(_isTime&&_clockImgs[_clkIdx]&&_clockImgs[_clkIdx].complete){
+          const cr=R*.7;ctx.save();ctx.beginPath();ctx.arc(p.x,p.y,cr,0,Math.PI*2);ctx.clip();ctx.drawImage(_clockImgs[_clkIdx],p.x-cr,p.y-cr,cr*2,cr*2);ctx.restore();
+        } else if(isM){ ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
         else{ ctx.fillStyle="rgba(255,255,255,.9)"; ctx.beginPath(); ctx.arc(p.x,p.y,R*.27,0,Math.PI*2); ctx.fill(); }
       } else {
         ctx.beginPath(); ctx.arc(p.x,p.y,R*.74,0,Math.PI*2); ctx.fillStyle="#9CA3AF"; ctx.fill();
         ctx.save(); ctx.globalAlpha=.22; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.ellipse(p.x-R*.2,p.y-R*.24,R*.34,R*.2,-0.4,0,Math.PI*2); ctx.fill(); ctx.restore();
-        if(isM){ ctx.fillStyle="rgba(255,255,255,.7)"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
+        if(_isTime&&_clockImgs[_clkIdx]&&_clockImgs[_clkIdx].complete){
+          const cr=R*.7;ctx.save();ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(p.x,p.y,cr,0,Math.PI*2);ctx.clip();ctx.drawImage(_clockImgs[_clkIdx],p.x-cr,p.y-cr,cr*2,cr*2);ctx.restore();
+        } else if(isM){ ctx.fillStyle="rgba(255,255,255,.7)"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
         else{ ctx.fillStyle="rgba(255,255,255,.5)"; ctx.beginPath(); ctx.arc(p.x,p.y,R*.27,0,Math.PI*2); ctx.fill(); }
         /* LOCK badge */
         const lbw=W*.14,lbh=W*.048,lbx=p.x-lbw/2,lby=p.y-R-lbh-W*.01;
@@ -3123,7 +3149,10 @@ function _drawCanvasMap(catId){
     oc.beginPath();oc.arc(cp.x,cp.y,cR,0,Math.PI*2);oc.fillStyle=ng2;oc.fill();oc.restore();
     oc.beginPath();oc.arc(cp.x,cp.y,cR*.74,0,Math.PI*2);oc.fillStyle="#D97706";oc.fill();
     oc.save();oc.globalAlpha=.3;oc.fillStyle="#fff";oc.beginPath();oc.ellipse(cp.x-cR*.2,cp.y-cR*.24,cR*.34,cR*.2,-0.4,0,Math.PI*2);oc.fill();oc.restore();
-    if(cIsM){ oc.fillStyle="#7C2D12";oc.font="900 "+(RM*.65)+"px 'Baloo 2',cursive";oc.textAlign="center";oc.textBaseline="middle";oc.fillText(String(cg+1),cp.x,cp.y+cR*.04); }
+    const _animClkIdx=(animN.g*3+animN.s)%_clockTimes.length;
+    if(catId==='time'&&_clockImgs[_animClkIdx]&&_clockImgs[_animClkIdx].complete){
+      const acr=cR*.7;oc.save();oc.beginPath();oc.arc(cp.x,cp.y,acr,0,Math.PI*2);oc.clip();oc.drawImage(_clockImgs[_animClkIdx],cp.x-acr,cp.y-acr,acr*2,acr*2);oc.restore();
+    } else if(cIsM){ oc.fillStyle="#7C2D12";oc.font="900 "+(RM*.65)+"px 'Baloo 2',cursive";oc.textAlign="center";oc.textBaseline="middle";oc.fillText(String(cg+1),cp.x,cp.y+cR*.04); }
     else{ oc.fillStyle="#7C2D12";oc.beginPath();oc.arc(cp.x,cp.y,cR*.27,0,Math.PI*2);oc.fill(); }
     /* PLAY badge */
     const bw2=W*.18,bh=W*.06,bx=cp.x-bw2/2,by=cp.y-cR-bh-W*.016;
