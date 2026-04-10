@@ -3385,7 +3385,7 @@ function nextQ() {
   }
   curAns = q.answer;
   $("g-speech").textContent = pick(S("speeches")[curCat]||["Go!"]);
-  const qText=(q.text||"").replace(/\{\{clock:(\d+):(\d+)\}\}/g,(_,h,m)=>clockHTML(+h,+m,'80px'));
+  const qText=(q.text||"").replace(/\{\{clock:(\d+):(\d+)\}\}/g,(_,h,m)=>clockHTML(+h,+m,'140px'));
   if(qText.includes('<img')) $("g-question").innerHTML=qText.replace(/\n/g,'<br>');
   else $("g-question").textContent=q.text||"";
   const vis = $("g-visual"); vis.innerHTML="";
