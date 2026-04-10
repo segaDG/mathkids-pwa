@@ -2432,8 +2432,8 @@ function speakAnswer(text, isCorrect) {
       const clk={id:` jam. ${v('correct')}`,en:` o'clock. ${v('correct')}`,ms:` pukul. ${v('correct')}`,fr:` heures. ${v('correct')}`,ja:`時. ${v('correct')}`};
       msg=String(text)+(clk[lang]||clk.en);
     } else if(curCat==='money'&&typeof text==='number'){
-      const cur=getCur();const curName=CUR_SPEECH[getCurKey()]||'';
-      msg=`${cur.sym}${text} ${curName}. ${v('correct')}`;
+      const curName=CUR_SPEECH[getCurKey()]||'';
+      msg=`${text} ${curName}. ${v('correct')}`;
     } else msg+='. '+v('correct');
     speak(msg);
   } else speak(v('tryAgain'), {rate:0.8});
