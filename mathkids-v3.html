@@ -1268,12 +1268,13 @@ const CATS = [
   {id:"div",  icon:"➗",color:"pink",  names:{id:"Bagi",      en:"Division",   ms:"Bahagi",     fr:"Division",     ja:"わり算"}},
   {id:"frac", icon:"🍕",color:"teal",   names:{id:"Pecahan",     en:"Fractions",  ms:"Pecahan",    fr:"Fractions",    ja:"分数"}},
   {id:"shape",icon:"🔷",color:"indigo", names:{id:"Bangun Datar",en:"Shapes",     ms:"Bentuk",     fr:"Formes",       ja:"図形"}},
-  {id:"time", icon:"🕐",color:"amber",  names:{id:"Jam/Waktu",   en:"Time",       ms:"Masa",       fr:"Heure",        ja:"時計"}},
+  {id:"time", icon:"🕐",img:"assets/clock_icon.svg",color:"amber",  names:{id:"Jam/Waktu",   en:"Time",       ms:"Masa",       fr:"Heure",        ja:"時計"}},
   {id:"money",icon:"💰",color:"emerald",names:{id:"Uang",        en:"Money",      ms:"Wang",       fr:"Argent",       ja:"お金"}},
 ];
 const SUB_LABELS = ["A","B","C"];
 const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
 const pick = a => a[Math.floor(Math.random()*a.length)];
+function catIcon(cat,sz){return cat.img?`<img src="${cat.img}" style="width:${sz||'1em'};height:${sz||'1em'};vertical-align:middle;">`:cat.icon;}
 
 /* ══════ MULTILINGUAL QUESTION TEXT ══════ */
 const T = {
@@ -2957,7 +2958,7 @@ function _openCatMap(catId){
   $("lm-stars").textContent = totalStars;
   /* badge */
   const bw = $("lm-badge-wrap");
-  bw.textContent = cat.icon; bw.style.background = "rgba(0,0,0,.07)";
+  bw.innerHTML = catIcon(cat,'28px'); bw.style.background = "rgba(0,0,0,.07)";
   /* title = world name */
   $("lm-title").textContent = (_CAT_WORLDS[catId]||{})[lang]||(_CAT_WORLDS[catId]||{}).en||cat.names[lang]||cat.names.id;
   showScreen("s-levelmap");
@@ -3147,7 +3148,7 @@ function renderCatTabs() {
     const isPremium = PREMIUM_CATS.includes(cat.id);
     const isUnlockedCat = isCatUnlocked(cat.id);
     const lockIcon = (isPremium && !isUnlockedCat) ? ' <img src="assets/lock.png" style="width:12px;height:12px;vertical-align:middle;">' : '';
-    btn.innerHTML = `${cat.icon} ${cat.names[lang]||cat.names.id}${lockIcon}`;
+    btn.innerHTML = `${catIcon(cat,'14px')} ${cat.names[lang]||cat.names.id}${lockIcon}`;
     btn.onclick = () => { activeCat = cat.id; renderCatTabs(); renderLevelMap(); };
     row.appendChild(btn);
   });
@@ -3183,7 +3184,7 @@ function renderLevelMap() {
       ? {id:`⏰ Trial gratis: ${getTrialDaysLeft()} hari tersisa`,en:`⏰ Free trial: ${getTrialDaysLeft()} days left`,ms:`⏰ Percubaan percuma: ${getTrialDaysLeft()} hari lagi`,fr:`⏰ Essai gratuit: ${getTrialDaysLeft()} jours restants`,ja:`⏰ 無料トライアル: あと${getTrialDaysLeft()}日`}
       : {id:'⏰ Trial gratis telah berakhir',en:'⏰ Free trial has ended',ms:'⏰ Percubaan percuma telah tamat',fr:'⏰ L\'essai gratuit est terminé',ja:'⏰ 無料トライアル終了'};
     banner.innerHTML = `
-      <div style="font-size:56px;margin-bottom:12px;">${cat.icon}</div>
+      <div style="font-size:56px;margin-bottom:12px;">${cat.img?`<img src="${cat.img}" style="width:56px;height:56px;">`:cat.icon}</div>
       <div style="font-family:'Baloo 2',cursive;font-size:20px;color:#0F172A;margin-bottom:8px;">${catName}</div>
       <div style="font-size:13px;color:#475569;font-weight:600;margin-bottom:20px;line-height:1.6;">${msgs[lang]||msgs.id}</div>
       <button onclick="openSubscribeModal()" style="width:100%;height:52px;border-radius:16px;background:linear-gradient(135deg,#8B5CF6,#6D28D9);color:#fff;font-family:'Baloo 2',cursive;font-size:17px;border:none;cursor:pointer;box-shadow:0 5px 0 #4A2090;margin-bottom:10px;">${btnLabels[lang]||btnLabels.id}</button>
@@ -3258,7 +3259,7 @@ function startSub(catId,lvl,sub) {
   const cat = CATS.find(c=>c.id===catId);
   const sv = LEVELS[catId][lvl].subs[sub];
   const subLabel = `Lvl ${lvl+1}${SUB_LABELS[sub]}`;
-  $("g-mode-name").textContent = `${cat.icon} ${cat.names[lang]||cat.names.id}`;
+  $("g-mode-name").innerHTML = `${catIcon(cat,'18px')} ${cat.names[lang]||cat.names.id}`;
   $("g-lvl-pill").textContent  = subLabel;
   $("q-card").className        = `q-card ${cat.color}`;
   $("g-prog").className        = `prog-fill-game ${cat.color}`;
@@ -3297,7 +3298,7 @@ function startBossLevel(catId){
   gScore=0; qNum=0; correct=0; streak=0; maxStreak=0; lives=MAX_LIVES; curItem=pick(VIS_ITEMS); usedExtraLife=false; retriedQ=false;
   const cat=CATS.find(c=>c.id===catId);
   const bossLabel={id:'⭐ Boss Mix',en:'⭐ Boss Mix',ms:'⭐ Boss Mix',fr:'⭐ Boss Mix',ja:'⭐ ボスミックス'};
-  $("g-mode-name").textContent=`${cat.icon} ${cat.names[lang]||cat.names.id}`;
+  $("g-mode-name").innerHTML=`${catIcon(cat,'18px')} ${cat.names[lang]||cat.names.id}`;
   $("g-lvl-pill").textContent=bossLabel[lang]||'⭐ Boss Mix';
   $("q-card").className=`q-card ${cat.color}`;
   $("g-prog").className=`prog-fill-game ${cat.color}`;
@@ -3595,7 +3596,7 @@ function renderLbCatTabs(){
   allBtn.onclick=()=>{lbCat="overall";renderLbCatTabs();renderLbList();};row.appendChild(allBtn);
   CATS.forEach(cat=>{
     const btn=document.createElement("div");btn.className="lb-cat-pill"+(cat.id===lbCat?" on":"");
-    btn.textContent=`${cat.icon} ${cat.names[lang]||cat.names.id}`;
+    btn.innerHTML=`${catIcon(cat,'14px')} ${cat.names[lang]||cat.names.id}`;
     btn.onclick=()=>{lbCat=cat.id;renderLbCatTabs();renderLbList();};row.appendChild(btn);
   });
 }
@@ -3679,7 +3680,7 @@ function showParentZone(){
     const pctDone=Math.round(done/total*100);
     html+=`<div style="background:rgba(255,255,255,.06);border-radius:12px;padding:10px 14px;margin-bottom:5px;">`;
     html+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">`;
-    html+=`<span style="font-size:14px;">${cat.icon}</span>`;
+    html+=`<span style="font-size:14px;">${catIcon(cat,'14px')}</span>`;
     html+=`<span style="font-size:12px;color:#fff;font-weight:700;flex:1;">${cat.names[lang]||cat.names.id}</span>`;
     html+=`<span style="font-size:11px;color:${cp>=70?'#4ADE80':cp>=40?'#FBBF24':'#F87171'};font-weight:700;">${cp}%</span>`;
     html+=`</div>`;
@@ -3694,7 +3695,7 @@ function showParentZone(){
     html+=`<div style="font-family:'Baloo 2',cursive;font-size:14px;color:#F87171;margin:12px 0 8px;">⚠️ ${{id:"Perlu Latihan",en:"Needs Practice",ms:"Perlu Latihan",fr:"À améliorer"}[lang]}</div>`;
     weak.forEach(cat=>{
       const bc=stats.byCat[cat.id];
-      html+=`<div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:8px 12px;margin-bottom:4px;font-size:12px;color:#FCA5A5;">${cat.icon} ${cat.names[lang]||cat.names.id} — ${Math.round(bc.correct/bc.answered*100)}%</div>`;
+      html+=`<div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:8px 12px;margin-bottom:4px;font-size:12px;color:#FCA5A5;">${catIcon(cat,'14px')} ${cat.names[lang]||cat.names.id} — ${Math.round(bc.correct/bc.answered*100)}%</div>`;
     });
   }
 
@@ -3871,7 +3872,7 @@ function showStats(){
     const bc=stats.byCat?.[cat.id]||{answered:0,correct:0};
     const cp=bc.answered>0?Math.round(bc.correct/bc.answered*100):0;
     html+=`<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;">`;
-    html+=`<span style="font-size:18px;">${cat.icon}</span>`;
+    html+=`<span style="font-size:18px;">${catIcon(cat,'18px')}</span>`;
     html+=`<div style="flex:1;"><div style="font-size:12px;color:#fff;font-weight:700;">${cat.names[lang]||cat.names.id}</div>`;
     html+=`<div style="height:4px;background:rgba(255,255,255,.1);border-radius:4px;margin-top:3px;"><div style="height:100%;width:${cp}%;background:${CC[cat.color]?.bg||'#fff'};border-radius:4px;"></div></div></div>`;
     html+=`<div style="text-align:right;"><span style="font-family:'Baloo 2',cursive;font-size:14px;color:#fff;">${bc.answered}</span><span style="font-size:10px;color:rgba(255,255,255,.4);"> soal</span></div>`;
