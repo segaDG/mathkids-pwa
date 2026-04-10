@@ -1277,7 +1277,10 @@ const pick = a => a[Math.floor(Math.random()*a.length)];
 function catIcon(cat,sz){return cat.img?`<img src="${cat.img}" style="width:${sz||'1em'};height:${sz||'1em'};vertical-align:middle;">`:cat.icon;}
 
 /* Clock face generator for canvas */
-const _clockTimes=[[12,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,30],[1,30],[2,30],[3,30],[4,30],[5,30],[6,30],[7,30],[8,30],[9,30],[10,30],[11,30],[1,15],[2,15],[3,45],[4,45],[5,15],[6,45]];
+// Generate all 5-min intervals: 12 hours × 12 intervals = 144 clocks
+const _clockTimes=[];
+for(let h=1;h<=12;h++) for(let m=0;m<60;m+=5) _clockTimes.push([h,m]);
+const _clockImgKey=(h,m)=>`${h%12}_${m}`;
 const _clockImgs={};
 function _makeClockSVG(h,m){
   const hDeg=(h%12)*30+m*0.5, mDeg=m*6;
@@ -1316,10 +1319,10 @@ function _makeClockSVG(h,m){
   +`</svg>`;
 }
 function _preloadClocks(){
-  _clockTimes.forEach(([h,m],i)=>{
+  _clockTimes.forEach(([h,m])=>{
     const img=new Image();
     img.src='data:image/svg+xml;base64,'+btoa(_makeClockSVG(h,m));
-    _clockImgs[i]=img;
+    _clockImgs[_clockImgKey(h,m)]=img;
   });
 }
 _preloadClocks();
@@ -1483,27 +1486,27 @@ const sqAreaQ = (mn,mx) => {
 
 /* ══════ TIME HELPERS (multilingual) ══════ */
 const CLOCK_EMOJI=['\uD83D\uDD5B','\uD83D\uDD50','\uD83D\uDD51','\uD83D\uDD52','\uD83D\uDD53','\uD83D\uDD54','\uD83D\uDD55','\uD83D\uDD56','\uD83D\uDD57','\uD83D\uDD58','\uD83D\uDD59','\uD83D\uDD5A'];
-function clockImg(h,m){const idx=((h%12)*2+(m>=30?1:0))%_clockTimes.length;const img=_clockImgs[idx];return img&&img.src?img.src:null;}
+function clockImg(h,m){const rm=Math.round(m/5)*5;const img=_clockImgs[_clockImgKey(h,rm)];return img&&img.src?img.src:null;}
 function clockHTML(h,m,sz){const src=clockImg(h,m||0);return src?`<img src="${src}" style="width:${sz||'80px'};height:${sz||'80px'};vertical-align:middle;">`:CLOCK_EMOJI[h%12];}
 const timeHourQ = (mn,mx) => {
   const h=rnd(mn,mx); return {text:`{{clock:${h}:0}} ${t('clockIs')}`,answer:h};
 };
 const timeHalfQ = () => {
-  const h=rnd(1,12); return {text:`{{clock:${h}:0}} + 30 ${t('minute')}\n= ?`,answer:`${h}:30`,options:[`${h}:30`,`${h}:00`,`${h+1>12?1:h+1}:30`,`${h}:15`]};
+  const h=rnd(1,12); return {text:`{{clock:${h}:30}} ${t('clockIs')}`,answer:`${h}:30`,options:[`${h}:30`,`${h}:00`,`${h+1>12?1:h+1}:30`,`${h}:15`]};
 };
 const timeQuarterQ = () => {
   const h=rnd(1,12),m=pick([0,15,30,45]);
   const ans=`${h}:${String(m).padStart(2,'0')}`;
   const opts=new Set([ans]);
   while(opts.size<4){const om=pick([0,15,30,45]);const o=`${h}:${String(om).padStart(2,'0')}`;opts.add(o);}
-  return {text:`${t('hourAt')} ${h}, ${t('minuteAt')} ${m}\n= ?`,answer:ans,options:[...opts]};
+  return {text:`{{clock:${h}:${m}}} ${t('clockIs')}`,answer:ans,options:[...opts]};
 };
 const timeMinQ = () => {
   const h=rnd(1,12),m=rnd(1,11)*5;
   const ans=`${h}:${String(m).padStart(2,'0')}`;
   const opts=new Set([ans]);
   while(opts.size<4){const om=rnd(1,11)*5;const o=`${h}:${String(om).padStart(2,'0')}`;opts.add(o);}
-  return {text:`${t('hourAt')} ${h}, ${t('minuteAt')} ${m}\n= ?`,answer:ans,options:[...opts]};
+  return {text:`{{clock:${h}:${m}}} ${t('clockIs')}`,answer:ans,options:[...opts]};
 };
 const timeDurQ = (mx) => {
   const h1=rnd(1,10),m1=pick([0,15,30]),h2=h1+rnd(1,mx),m2=pick([0,15,30]);
