@@ -1455,11 +1455,13 @@ const sqAreaQ = (mn,mx) => {
 
 /* ══════ TIME HELPERS (multilingual) ══════ */
 const CLOCK_EMOJI=['\uD83D\uDD5B','\uD83D\uDD50','\uD83D\uDD51','\uD83D\uDD52','\uD83D\uDD53','\uD83D\uDD54','\uD83D\uDD55','\uD83D\uDD56','\uD83D\uDD57','\uD83D\uDD58','\uD83D\uDD59','\uD83D\uDD5A'];
+function clockImg(h,m){const idx=((h%12)*2+(m>=30?1:0))%_clockTimes.length;const img=_clockImgs[idx];return img&&img.src?img.src:null;}
+function clockHTML(h,m,sz){const src=clockImg(h,m||0);return src?`<img src="${src}" style="width:${sz||'48px'};height:${sz||'48px'};vertical-align:middle;">`:CLOCK_EMOJI[h%12];}
 const timeHourQ = (mn,mx) => {
-  const h=rnd(mn,mx); return {text:`${CLOCK_EMOJI[h%12]} ${t('clockIs')}`,answer:h};
+  const h=rnd(mn,mx); return {text:`{{clock:${h}:0}} ${t('clockIs')}`,answer:h};
 };
 const timeHalfQ = () => {
-  const h=rnd(1,12); return {text:`${CLOCK_EMOJI[h%12]} + 30 ${t('minute')}\n= ?`,answer:`${h}:30`,options:[`${h}:30`,`${h}:00`,`${h+1>12?1:h+1}:30`,`${h}:15`]};
+  const h=rnd(1,12); return {text:`{{clock:${h}:0}} + 30 ${t('minute')}\n= ?`,answer:`${h}:30`,options:[`${h}:30`,`${h}:00`,`${h+1>12?1:h+1}:30`,`${h}:15`]};
 };
 const timeQuarterQ = () => {
   const h=rnd(1,12),m=pick([0,15,30,45]);
@@ -1490,7 +1492,7 @@ const timeSubHourQ = (mn,mx) => {
 };
 const timeAmPmQ = () => {
   const h=rnd(1,12),isAM=Math.random()>.5;const ans=isAM?"AM":"PM";
-  return {text:`${CLOCK_EMOJI[h%12]} ${h} ${isAM?t('morning'):t('night')}\n= ?`,answer:ans,options:["AM","PM","AM","PM"]};
+  return {text:`{{clock:${h}:0}} ${h} ${isAM?t('morning'):t('night')}\n= ?`,answer:ans,options:["AM","PM","AM","PM"]};
 };
 const timeActivityQ = () => {
   const acts=[{a:t('breakfast'),h:7,p:"AM"},{a:t('lunch'),h:12,p:"PM"},{a:t('bedtime'),h:9,p:"PM"},{a:t('wakeUp'),h:6,p:"AM"}];
@@ -3073,22 +3075,16 @@ function _drawCanvasMap(catId){
       if(st==="done"){ const ng=ctx.createRadialGradient(p.x-R*.2,p.y-R*.2,0,p.x,p.y,R);ng.addColorStop(0,"#EF4444");ng.addColorStop(1,"#B91C1C");ctx.fillStyle=ng; }
       else ctx.fillStyle="#D1D5DB";
       ctx.fill(); ctx.restore();
-      const _isTime=catId==='time';
-      const _clkIdx=(g*3+s)%_clockTimes.length;
       if(st==="done"){
         ctx.beginPath(); ctx.arc(p.x,p.y,R*.74,0,Math.PI*2); ctx.fillStyle="#DC2626"; ctx.fill();
         ctx.save(); ctx.globalAlpha=.28; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.ellipse(p.x-R*.2,p.y-R*.24,R*.34,R*.2,-0.4,0,Math.PI*2); ctx.fill(); ctx.restore();
         if(stars>0){ for(let i=0;i<3;i++){ ctx.globalAlpha=i<stars?1:.2; ctx.font=(R*.52)+"px system-ui"; ctx.textAlign="center"; ctx.textBaseline="top"; ctx.fillText("⭐",p.x+(i-1)*R*.88,p.y+R+R*.06); } ctx.globalAlpha=1; }
-        if(_isTime&&_clockImgs[_clkIdx]&&_clockImgs[_clkIdx].complete){
-          const cr=R*.7;ctx.save();ctx.beginPath();ctx.arc(p.x,p.y,cr,0,Math.PI*2);ctx.clip();ctx.drawImage(_clockImgs[_clkIdx],p.x-cr,p.y-cr,cr*2,cr*2);ctx.restore();
-        } else if(isM){ ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
+        if(isM){ ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
         else{ ctx.fillStyle="rgba(255,255,255,.9)"; ctx.beginPath(); ctx.arc(p.x,p.y,R*.27,0,Math.PI*2); ctx.fill(); }
       } else {
         ctx.beginPath(); ctx.arc(p.x,p.y,R*.74,0,Math.PI*2); ctx.fillStyle="#9CA3AF"; ctx.fill();
         ctx.save(); ctx.globalAlpha=.22; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.ellipse(p.x-R*.2,p.y-R*.24,R*.34,R*.2,-0.4,0,Math.PI*2); ctx.fill(); ctx.restore();
-        if(_isTime&&_clockImgs[_clkIdx]&&_clockImgs[_clkIdx].complete){
-          const cr=R*.7;ctx.save();ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(p.x,p.y,cr,0,Math.PI*2);ctx.clip();ctx.drawImage(_clockImgs[_clkIdx],p.x-cr,p.y-cr,cr*2,cr*2);ctx.restore();
-        } else if(isM){ ctx.fillStyle="rgba(255,255,255,.7)"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
+        if(isM){ ctx.fillStyle="rgba(255,255,255,.7)"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.font="900 "+(RM*.64)+"px 'Baloo 2',cursive"; ctx.fillText(String(g+1),p.x,p.y+R*.04); }
         else{ ctx.fillStyle="rgba(255,255,255,.5)"; ctx.beginPath(); ctx.arc(p.x,p.y,R*.27,0,Math.PI*2); ctx.fill(); }
         /* LOCK badge */
         const lbw=W*.14,lbh=W*.048,lbx=p.x-lbw/2,lby=p.y-R-lbh-W*.01;
@@ -3146,10 +3142,7 @@ function _drawCanvasMap(catId){
     oc.beginPath();oc.arc(cp.x,cp.y,cR,0,Math.PI*2);oc.fillStyle=ng2;oc.fill();oc.restore();
     oc.beginPath();oc.arc(cp.x,cp.y,cR*.74,0,Math.PI*2);oc.fillStyle="#D97706";oc.fill();
     oc.save();oc.globalAlpha=.3;oc.fillStyle="#fff";oc.beginPath();oc.ellipse(cp.x-cR*.2,cp.y-cR*.24,cR*.34,cR*.2,-0.4,0,Math.PI*2);oc.fill();oc.restore();
-    const _animClkIdx=(animN.g*3+animN.s)%_clockTimes.length;
-    if(catId==='time'&&_clockImgs[_animClkIdx]&&_clockImgs[_animClkIdx].complete){
-      const acr=cR*.7;oc.save();oc.beginPath();oc.arc(cp.x,cp.y,acr,0,Math.PI*2);oc.clip();oc.drawImage(_clockImgs[_animClkIdx],cp.x-acr,cp.y-acr,acr*2,acr*2);oc.restore();
-    } else if(cIsM){ oc.fillStyle="#7C2D12";oc.font="900 "+(RM*.65)+"px 'Baloo 2',cursive";oc.textAlign="center";oc.textBaseline="middle";oc.fillText(String(cg+1),cp.x,cp.y+cR*.04); }
+    if(cIsM){ oc.fillStyle="#7C2D12";oc.font="900 "+(RM*.65)+"px 'Baloo 2',cursive";oc.textAlign="center";oc.textBaseline="middle";oc.fillText(String(cg+1),cp.x,cp.y+cR*.04); }
     else{ oc.fillStyle="#7C2D12";oc.beginPath();oc.arc(cp.x,cp.y,cR*.27,0,Math.PI*2);oc.fill(); }
     /* PLAY badge */
     const bw2=W*.18,bh=W*.06,bx=cp.x-bw2/2,by=cp.y-cR-bh-W*.016;
@@ -3361,7 +3354,9 @@ function nextQ() {
   }
   curAns = q.answer;
   $("g-speech").textContent = pick(S("speeches")[curCat]||["Go!"]);
-  $("g-question").textContent = q.text||"";
+  const qText=(q.text||"").replace(/\{\{clock:(\d+):(\d+)\}\}/g,(_,h,m)=>clockHTML(+h,+m,'48px'));
+  if(qText.includes('<img')) $("g-question").innerHTML=qText.replace(/\n/g,'<br>');
+  else $("g-question").textContent=q.text||"";
   const vis = $("g-visual"); vis.innerHTML="";
   if(q.visual){for(let i=0;i<q.cnt;i++){const d=document.createElement("div");d.className="q-vi";d.textContent=curItem;d.style.animationDelay=(i*.05)+"s";vis.appendChild(d);}}
   const useNumpad = (curSub>=1 || curLvl>=5) && !q.options && typeof curAns==='number';
