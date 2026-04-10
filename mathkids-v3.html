@@ -316,11 +316,11 @@ body{font-family:'Nunito',sans-serif;background:#111;display:flex;align-items:ce
 .q-visual{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;min-height:40px;}
 .q-vi{font-size:34px;animation:viPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes viPop{0%{transform:scale(0) rotate(-30deg);opacity:0}100%{transform:scale(1);opacity:1}}
-.money-badge{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:52px;border-radius:6px;margin:2px 4px;position:relative;font-family:'Baloo 2',cursive;vertical-align:middle;box-shadow:2px 3px 0 rgba(0,0,0,.15);}
-.money-badge .mb-sym{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);line-height:1;margin-bottom:-2px;}
-.money-badge .mb-val{font-size:22px;font-weight:900;color:#fff;line-height:1;}
-.money-badge::before{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:rgba(255,255,255,.18);border-radius:6px 6px 0 0;}
-.money-badge::after{content:"";position:absolute;inset:0;border:2px solid rgba(255,255,255,.2);border-radius:6px;pointer-events:none;}
+.money-badge{display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;width:88px;height:56px;border-radius:10px;margin:3px 4px;position:relative;font-family:'Baloo 2',cursive;vertical-align:middle;box-shadow:3px 4px 0 rgba(0,0,0,.12);padding:0 10px;}
+.money-badge .mb-sym{font-size:10px;font-weight:700;color:rgba(255,255,255,.75);line-height:1;margin-bottom:-1px;}
+.money-badge .mb-val{font-size:24px;font-weight:900;color:#fff;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.15);}
+.money-badge::before{content:"";position:absolute;top:0;left:0;right:30%;height:100%;background:rgba(255,255,255,.15);border-radius:10px 0 0 10px;}
+.money-badge::after{content:"";position:absolute;right:0;top:0;bottom:0;width:30%;background:rgba(0,0,0,.08);border-radius:0 10px 10px 0;}
 .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:9px 20px 0;flex-shrink:0;}
 .ans-btn{border-radius:18px;height:74px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:transform .14s,box-shadow .14s;font-family:'Baloo 2',cursive;}
 .ans-btn::before{content:"";position:absolute;top:0;left:0;right:0;height:44%;background:rgba(255,255,255,.18);border-radius:18px 18px 50% 50%;}
@@ -1472,20 +1472,47 @@ const fracSimplifyQ = (n,d) => {
 /* ══════ SHAPE HELPERS (multilingual) ══════ */
 const SHAPES={id:{tri:"Segitiga",sq:"Persegi",rect:"Persegi Panjang",circ:"Lingkaran",pent:"Segi Lima",hex:"Segi Enam",oct:"Segi Delapan",rhom:"Belah Ketupat",trap:"Trapesium"},en:{tri:"Triangle",sq:"Square",rect:"Rectangle",circ:"Circle",pent:"Pentagon",hex:"Hexagon",oct:"Octagon",rhom:"Rhombus",trap:"Trapezoid"},ms:{tri:"Segi Tiga",sq:"Segi Empat",rect:"Segi Empat Panjang",circ:"Bulatan",pent:"Segi Lima",hex:"Segi Enam",oct:"Segi Lapan",rhom:"Rombus",trap:"Trapezium"},fr:{tri:"Triangle",sq:"Carré",rect:"Rectangle",circ:"Cercle",pent:"Pentagone",hex:"Hexagone",oct:"Octogone",rhom:"Losange",trap:"Trapèze"},ja:{tri:"三角形",sq:"正方形",rect:"長方形",circ:"円",pent:"五角形",hex:"六角形",oct:"八角形",rhom:"ひし形",trap:"台形"}};
 const SHAPE_EMOJI={tri:"\uD83D\uDD3A",sq:"\uD83D\uDFE7",rect:"\u25AC",circ:"\uD83D\uDD35",pent:"\u2B20",hex:"\u2B21",oct:"🛑",rhom:"🔶",trap:"⏢"};
+// Canvas-quality shape SVGs
+const _SHAPE_COLORS={tri:{f:'#FCD34D',s:'#D97706'},sq:{f:'#60A5FA',s:'#2563EB'},rect:{f:'#34D399',s:'#059669'},circ:{f:'#F472B6',s:'#DB2777'},pent:{f:'#A78BFA',s:'#7C3AED'},hex:{f:'#FB923C',s:'#EA580C'},oct:{f:'#4ADE80',s:'#16A34A'},rhom:{f:'#F87171',s:'#DC2626'},trap:{f:'#38BDF8',s:'#0284C7'}};
+function _shapePoints(key,cx,cy,r){
+  const pts=[];
+  if(key==='tri'){const h=r*1.5;pts.push([cx,cy-h*.56],[cx-r*.9,cy+h*.44],[cx+r*.9,cy+h*.44]);}
+  else if(key==='sq'){const h=r*.9;pts.push([cx-h,cy-h],[cx+h,cy-h],[cx+h,cy+h],[cx-h,cy+h]);}
+  else if(key==='rect'){const w=r*1.2,h=r*.7;pts.push([cx-w,cy-h],[cx+w,cy-h],[cx+w,cy+h],[cx-w,cy+h]);}
+  else if(key==='pent'){for(let i=0;i<5;i++){const a=-Math.PI/2+i*2*Math.PI/5;pts.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}}
+  else if(key==='hex'){for(let i=0;i<6;i++){const a=i*Math.PI/3;pts.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}}
+  else if(key==='oct'){for(let i=0;i<8;i++){const a=-Math.PI/8+i*Math.PI/4;pts.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}}
+  else if(key==='rhom'){pts.push([cx,cy-r],[cx+r*.9,cy],[cx,cy+r],[cx-r*.9,cy]);}
+  else if(key==='trap'){const tw=r*.7,bw=r*1.1,h=r*.75;pts.push([cx-tw,cy-h],[cx+tw,cy-h],[cx+bw,cy+h],[cx-bw,cy+h]);}
+  return pts;
+}
+function _makeShapeSVG(key){
+  const sz=120,cx=60,cy=60,r=44;const c=_SHAPE_COLORS[key]||{f:'#999',s:'#666'};
+  if(key==='circ'){
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}"><defs><radialGradient id="cg" cx="40%" cy="40%"><stop offset="0%" stop-color="${c.f}" stop-opacity=".6"/><stop offset="100%" stop-color="${c.f}"/></radialGradient></defs><circle cx="${cx+2}" cy="${cy+3}" r="${r}" fill="rgba(0,0,0,.1)"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#cg)"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c.s}" stroke-width="3"/><ellipse cx="${cx-r*.28}" cy="${cy-r*.3}" rx="${r*.26}" ry="${r*.14}" fill="rgba(255,255,255,.28)" transform="rotate(-20,${cx-r*.28},${cy-r*.3})"/></svg>`;
+  }
+  const pts=_shapePoints(key,cx,cy,r);
+  const path=pts.map(([x,y],i)=>`${i?'L':'M'}${x.toFixed(1)},${y.toFixed(1)}`).join('')+'Z';
+  const shadow=pts.map(([x,y],i)=>`${i?'L':'M'}${(x+2).toFixed(1)},${(y+3).toFixed(1)}`).join('')+'Z';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c.f}" stop-opacity=".7"/><stop offset="100%" stop-color="${c.f}"/></linearGradient></defs><path d="${shadow}" fill="rgba(0,0,0,.1)"/><path d="${path}" fill="url(#sg)" stroke="${c.s}" stroke-width="3" stroke-linejoin="round"/><path d="${pts.slice(0,3).map(([x,y],i)=>`${i?'L':'M'}${(x*.3+cx*.7).toFixed(1)},${(y*.3+cy*.7).toFixed(1)}`).join('')+'Z'}" fill="rgba(255,255,255,.18)"/></svg>`;
+}
+const _shapeImgs={};
+Object.keys(_SHAPE_COLORS).forEach(k=>{const img=new Image();img.src='data:image/svg+xml;base64,'+btoa(_makeShapeSVG(k));_shapeImgs[k]=img;});
+function shapeHTML(key,sz){const img=_shapeImgs[key];return img?`<img src="${img.src}" style="width:${sz||'80px'};height:${sz||'80px'};vertical-align:middle;">`:SHAPE_EMOJI[key];}
 const SHAPE_SIDES={tri:3,sq:4,rect:4,circ:0,pent:5,hex:6,oct:8,rhom:4,trap:4};
 const shapeIdQ = (keys) => {
   const k=pick(keys),L=SHAPES[lang]||SHAPES.id;
   const others=keys.filter(x=>x!==k).slice(0,3);
   while(others.length<3){const rk=pick(Object.keys(SHAPES.id).filter(x=>x!==k&&!others.includes(x)));if(rk)others.push(rk);else break;}
-  return {text:`${SHAPE_EMOJI[k]} = ?`,answer:L[k],options:[L[k],...others.map(o=>L[o])]};
+  return {text:`{{shape:${k}}} = ?`,answer:L[k],options:[L[k],...others.map(o=>L[o])]};
 };
 const shapeSidesQ = (keys) => {
   const k=pick(keys.filter(x=>SHAPE_SIDES[x]>0));
-  return {text:`${SHAPE_EMOJI[k]} ${t('howManySides')}`,answer:SHAPE_SIDES[k]};
+  return {text:`{{shape:${k}}} ${t('howManySides')}`,answer:SHAPE_SIDES[k]};
 };
 const shapeCornersQ = (keys) => {
   const k=pick(keys.filter(x=>SHAPE_SIDES[x]>0));
-  return {text:`${SHAPE_EMOJI[k]} ${t('howManyCorners')}`,answer:SHAPE_SIDES[k]};
+  return {text:`{{shape:${k}}} ${t('howManyCorners')}`,answer:SHAPE_SIDES[k]};
 };
 const perimeterQ = (mn,mx) => {
   const s=rnd(mn,mx); return {text:`${t('squareSide')} ${s}. ${t('perimeter')} = ?`,answer:s*4};
@@ -3425,7 +3452,8 @@ function nextQ() {
   }
   curAns = q.answer;
   $("g-speech").textContent = pick(S("speeches")[curCat]||["Go!"]);
-  let qText=(q.text||"").replace(/\{\{clock:(\d+):(\d+)\}\}/g,(_,h,m)=>clockHTML(+h,+m,'140px'));
+  let qText=(q.text||"").replace(/\{\{clock:(\d+):(\d+)\}\}/g,(_,h,m)=>clockHTML(+h,+m,'140px'))
+    .replace(/\{\{shape:(\w+)\}\}/g,(_,k)=>shapeHTML(k,'100px'));
   if(curCat==='money'){
     const sym=getCur().sym.replace(/\$/g,'\\$');
     const _mbColors=['#3B82F6','#EF4444','#10B981','#F59E0B','#8B5CF6','#EC4899'];
