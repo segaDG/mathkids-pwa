@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MathKids Screenshot Template</title>
+<style>
+body{margin:0;background:#0F172A;font-family:-apple-system,system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:24px;padding:24px;justify-content:center;}
+.note{color:#fff;text-align:center;width:100%;margin-bottom:8px;font-size:14px;}
+.note span{background:#A78BFA;padding:6px 12px;border-radius:8px;}
+
+/* Phone screenshot frame: 1080x1920 = 9:16 */
+.shot{
+  width:540px;height:960px;
+  background:linear-gradient(160deg,#7C3AED,#4C1D95,#1E1B4B);
+  border-radius:24px;overflow:hidden;
+  display:flex;flex-direction:column;
+  position:relative;box-shadow:0 30px 60px rgba(0,0,0,.5);
+}
+.headline{
+  text-align:center;padding:50px 30px 20px;color:#fff;
+}
+.headline h1{font-family:Baloo 2,system-ui;font-size:46px;margin:0 0 10px;line-height:1.1;
+  background:linear-gradient(135deg,#FFD700,#FF6B6B,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.headline p{font-size:18px;color:rgba(255,255,255,.7);font-weight:600;margin:0;}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:0 30px;}
+.iframe-wrap{
+  width:330px;height:600px;
+  border-radius:30px;overflow:hidden;
+  box-shadow:0 0 0 8px #1E293B,0 0 0 11px #334155,0 25px 50px rgba(0,0,0,.4);
+  background:#000;
+}
+iframe{width:100%;height:100%;border:none;}
+.footer{
+  text-align:center;padding:20px 30px 30px;color:rgba(255,255,255,.6);
+  font-size:14px;font-weight:600;
+}
+.shot-id{position:absolute;top:8px;right:12px;color:rgba(255,255,255,.3);font-size:10px;font-family:monospace;}
+
+/* Screenshot variants */
+.shot.s2{background:linear-gradient(160deg,#0EA5E9,#0369A1,#0C4A6E);}
+.shot.s3{background:linear-gradient(160deg,#F59E0B,#B45309,#78350F);}
+.shot.s4{background:linear-gradient(160deg,#10B981,#047857,#064E3B);}
+.shot.s5{background:linear-gradient(160deg,#EC4899,#9D174D,#500724);}
+</style>
+</head>
+<body>
+
+<div class="note"><span>📸 Screenshot for Google Play Store — 540×960 (9:16). Take screenshot of each card individually.</span></div>
+
+<!-- Screenshot 1: Hero -->
+<div class="shot s1">
+<div class="shot-id">screenshot 1</div>
+<div class="headline">
+<h1>Learn Math the<br>Fun Way! 🎓</h1>
+<p>270+ Levels · 9 Categories</p>
+</div>
+<div class="stage">
+<div class="iframe-wrap"><iframe src="https://segadg.github.io/mathkids-pwa/"></iframe></div>
+</div>
+<div class="footer">For kids ages 3–10 · 5 languages</div>
+</div>
+
+<!-- Screenshot 2: Categories -->
+<div class="shot s2">
+<div class="shot-id">screenshot 2</div>
+<div class="headline">
+<h1>9 Math<br>Categories 📚</h1>
+<p>From counting to fractions</p>
+</div>
+<div class="stage">
+<div class="iframe-wrap"><iframe src="https://segadg.github.io/mathkids-pwa/"></iframe></div>
+</div>
+<div class="footer">Counting · Add · Sub · Mul · Div · Fractions · Shapes · Time · Money</div>
+</div>
+
+<!-- Screenshot 3: Levels -->
+<div class="shot s3">
+<div class="shot-id">screenshot 3</div>
+<div class="headline">
+<h1>270+ Adaptive<br>Levels ⭐</h1>
+<p>Difficulty grows with your child</p>
+</div>
+<div class="stage">
+<div class="iframe-wrap"><iframe src="https://segadg.github.io/mathkids-pwa/"></iframe></div>
+</div>
+<div class="footer">Earn 3 stars on every level</div>
+</div>
+
+<!-- Screenshot 4: Game -->
+<div class="shot s4">
+<div class="shot-id">screenshot 4</div>
+<div class="headline">
+<h1>Interactive<br>Gameplay 🎮</h1>
+<p>Beautiful animations & rewards</p>
+</div>
+<div class="stage">
+<div class="iframe-wrap"><iframe src="https://segadg.github.io/mathkids-pwa/"></iframe></div>
+</div>
+<div class="footer">Audio feedback in 5 languages</div>
+</div>
+
+<!-- Screenshot 5: Leaderboard -->
+<div class="shot s5">
+<div class="shot-id">screenshot 5</div>
+<div class="headline">
+<h1>Global<br>Leaderboards 🏆</h1>
+<p>Compete with kids worldwide</p>
+</div>
+<div class="stage">
+<div class="iframe-wrap"><iframe src="https://segadg.github.io/mathkids-pwa/"></iframe></div>
+</div>
+<div class="footer">Track your country ranking too</div>
+</div>
+
+</body>
+</html>

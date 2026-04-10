@@ -6,6 +6,7 @@ android/.idea/
 android/local.properties
 *.jks
 *.keystore
+android/keystore.properties
 .DS_Store
 *.apk
 *.aab

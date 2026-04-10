@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MathKids Feature Graphic</title>
+<style>
+body{margin:0;background:#0F172A;font-family:-apple-system,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;}
+.fg{
+  width:1024px;height:500px;
+  background:linear-gradient(135deg,#7C3AED 0%,#A78BFA 50%,#3B82F6 100%);
+  border-radius:24px;overflow:hidden;
+  position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+  display:flex;align-items:center;
+}
+.bg-circles{position:absolute;inset:0;}
+.bg-circles div{position:absolute;border-radius:50%;background:rgba(255,255,255,.08);}
+.c1{width:300px;height:300px;top:-100px;right:-50px;}
+.c2{width:200px;height:200px;bottom:-50px;left:30%;}
+.c3{width:150px;height:150px;top:20%;left:5%;}
+.left{flex:1;padding:0 60px;position:relative;z-index:2;}
+.title{font-family:Baloo 2,system-ui;font-size:84px;font-weight:900;line-height:.95;margin:0;
+  background:linear-gradient(135deg,#FFD700,#FF6B6B,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 4px 20px rgba(0,0,0,.2);}
+.tag{font-size:24px;color:#fff;font-weight:700;margin-top:16px;letter-spacing:1px;text-transform:uppercase;opacity:.95;}
+.subtitle{font-size:18px;color:rgba(255,255,255,.85);margin-top:12px;font-weight:600;}
+.right{flex:0 0 380px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;padding-right:60px;}
+.icons{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.icon{
+  width:120px;height:120px;border-radius:24px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:60px;
+  background:rgba(255,255,255,.18);
+  border:3px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.icon.r1{transform:rotate(-6deg);}
+.icon.r2{transform:rotate(4deg);}
+.icon.r3{transform:rotate(3deg);}
+.icon.r4{transform:rotate(-5deg);}
+.note{position:fixed;top:20px;left:20px;color:#A78BFA;background:#1E293B;padding:8px 14px;border-radius:8px;font-size:13px;}
+</style>
+</head>
+<body>
+<div class="note">📐 Feature Graphic — 1024×500 px (required by Play Store)</div>
+<div class="fg">
+  <div class="bg-circles">
+    <div class="c1"></div><div class="c2"></div><div class="c3"></div>
+  </div>
+  <div class="left">
+    <h1 class="title">MathKids ✨</h1>
+    <div class="tag">Fun Math Learning</div>
+    <div class="subtitle">270+ Levels · 9 Categories · 5 Languages<br>For Kids Ages 3–10</div>
+  </div>
+  <div class="right">
+    <div class="icons">
+      <div class="icon r1">➕</div>
+      <div class="icon r2">✖️</div>
+      <div class="icon r3">🔢</div>
+      <div class="icon r4">⭐</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
