@@ -3923,7 +3923,13 @@ function openCurSwitcher(){
     const btn=document.createElement("button");
     btn.className="lang-btn"+(c.key===curKey?" sel":"");
     btn.innerHTML=`<span class="lang-flag">${c.label.split(' ')[0]}</span><span class="lang-name">${c.label.split(' ').slice(1).join(' ')}</span>`;
-    btn.onclick=()=>{_curOverride=c.key;localStorage.setItem('mk_cur_override',c.key);closeModal('modal-cur');$("cur-label").textContent=c.sym;showToast(`💰 ${c.label}`);};
+    btn.onclick=()=>{
+      _curOverride=c.key;localStorage.setItem('mk_cur_override',c.key);closeModal('modal-cur');
+      const _gcb=$("game-cur-btn");if(_gcb)_gcb.textContent=`💰 ${c.sym}`;
+      // Regenerate current question with new currency
+      if(curCat==='money'){qNum--;nextQ();}
+      showToast(`💰 ${c.label}`);
+    };
     grid.appendChild(btn);
   });
   openModal('modal-cur');
