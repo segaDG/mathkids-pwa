@@ -320,9 +320,9 @@ body{font-family:'Nunito',sans-serif;background:#1a1a2e;margin:0;padding:0;}
 .q-visual{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;min-height:40px;}
 .q-vi{font-size:34px;animation:viPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes viPop{0%{transform:scale(0) rotate(-30deg);opacity:0}100%{transform:scale(1);opacity:1}}
-.money-badge{display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;width:88px;height:56px;border-radius:10px;margin:3px 4px;position:relative;font-family:'Baloo 2',cursive;vertical-align:middle;box-shadow:3px 4px 0 rgba(0,0,0,.12);padding:0 10px;}
-.money-badge .mb-sym{font-size:10px;font-weight:700;color:rgba(255,255,255,.75);line-height:1;margin-bottom:-1px;}
-.money-badge .mb-val{font-size:24px;font-weight:900;color:#fff;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.15);}
+.money-badge{display:inline-block;width:88px;height:56px;border-radius:10px;margin:3px 4px;position:relative;font-family:'Baloo 2',cursive;vertical-align:middle;box-shadow:3px 4px 0 rgba(0,0,0,.12);}
+.money-badge .mb-sym{position:absolute;top:6px;left:10px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);line-height:1;z-index:2;}
+.money-badge .mb-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#fff;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.15);z-index:2;}
 .money-badge::before{content:"";position:absolute;top:0;left:0;right:30%;height:100%;background:rgba(255,255,255,.15);border-radius:10px 0 0 10px;}
 .money-badge::after{content:"";position:absolute;right:0;top:0;bottom:0;width:30%;background:rgba(0,0,0,.08);border-radius:0 10px 10px 0;}
 .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:9px 20px 0;flex-shrink:0;}
@@ -3466,6 +3466,8 @@ function nextQ() {
       const bg=_mbColors[_mbIdx++%_mbColors.length];
       return `<span class="money-badge" style="background:${bg}"><span class="mb-sym">${s}</span><span class="mb-val">${display}</span></span>`;
     });
+    // Keep =? on same line as last badge
+    qText=qText.replace(/\n(=\s*\?)/g,' $1');
   }
   if(qText.includes('<')){$("g-question").innerHTML=qText.replace(/\n/g,'<br>');}
   else $("g-question").textContent=q.text||"";
